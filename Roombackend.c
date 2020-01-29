@@ -46,7 +46,16 @@ double angle_arr[] = {0.0, 0.0, 0.0, 0.0, 0.0};  //{CURRENT_ANGLE, PREV_ANGLE, P
 #define RFCLIFF 2
 #define RCLIFF 3
 
-//not complicated
+/*-------------------------------------------------------------------------------------------------
+			     _____ ______ _   _  _____  ____  _____  
+			    / ____|  ____| \ | |/ ____|/ __ \|  __ \ 
+			   | (___ | |__  |  \| | (___ | |  | | |__) |
+			    \___ \|  __| | . ` |\___ \| |  | |  _  / 
+			    ____) | |____| |\  |____) | |__| | | \ \ 
+			   |_____/|______|_| \_|_____/ \____/|_|  \_\
+sensor movement
+--------------------------------------------------------------------------------------------------*/
+
 void moveForward(int s, int t) {
   create_drive_direct(s, s);
   msleep(t*1000);
@@ -205,7 +214,7 @@ void move_until_white(int sensor, int ls, int rs) {
                                            |  ___/ | | | |  | |
                                            | |    _| |_| |__| |
                                            |_|   |_____|_____/ 
- 
+ PID Line following
  -------------------------------------------------------------------------------------------------*/
 
 void forwards_pid_right(int side, double target, double position, int speed)
@@ -656,7 +665,7 @@ void topHat_pid_backwards(int side, double target, double position, int speed)
                                    / /\ \ | |      | || | |_ | . ` |
                                   / ____ \| |____ _| || |__| | |\  |
                                  /_/    \_\______|_____\_____|_| \_|
- 
+ Align
  -------------------------------------------------------------------------------------------------*/
 
 void align(int side, double target)   //aligns the roomba perpendicular to the tape
