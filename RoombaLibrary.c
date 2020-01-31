@@ -46,6 +46,12 @@ double angle_arr[] = {0.0, 0.0, 0.0, 0.0, 0.0};  //{CURRENT_ANGLE, PREV_ANGLE, P
 #define RFCLIFF 2
 #define RCLIFF 3
 
+
+void moveForward(int s, int t) {
+  create_drive_direct(s, s);
+  msleep(t);
+}
+
 /*-------------------------------------------------------------------------------------------------
 			     _____ ______ _   _  _____  ____  _____  
 			    / ____|  ____| \ | |/ ____|/ __ \|  __ \ 
@@ -55,11 +61,6 @@ double angle_arr[] = {0.0, 0.0, 0.0, 0.0, 0.0};  //{CURRENT_ANGLE, PREV_ANGLE, P
 			   |_____/|______|_| \_|_____/ \____/|_|  \_\
 sensor movement
 --------------------------------------------------------------------------------------------------*/
-
-void moveForward(int s, int t) {
-  create_drive_direct(s, s);
-  msleep(t*1000);
-}
 
 void go_until_black(int sensor, int s) {
   if(sensor == LCLIFF) {
