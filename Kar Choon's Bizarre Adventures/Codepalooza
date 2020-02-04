@@ -1,0 +1,152 @@
+#include <kipr/botball.h>
+#include<stdbool.h>
+
+//void moveSeconds(int);
+void turnDegrees(int);
+void moveSeconds(int);
+
+int main()
+{
+    //Challenge 1: Move Forward for 10 seconds
+    
+    //1 sec is 260 ticks
+    /*int sec = 5;
+    int duration = sec * 270;
+    
+    mrp(0,250,duration);
+    mrp(1,250,duration);
+	bmd(0);
+	bmd(1);*/
+    
+    //Challenge 2:
+    //moveSeconds(5);
+    //return 0;
+    
+    //Chalenge 3/1: Type in # degrees and it turns that much MAKE IT A FUNCTIUONAOKDNOKPANGLKJBPKAWNFJ
+    /*turnDegrees(90);
+    return 0;*/
+    
+    //Challenge 2: Be able to turn CW/Counter
+    /*turnDegrees(-90);
+    return 0;*/
+    
+    //Challenge 3: Skip Black Stop on 2nd
+    /*int x=0;
+    while (x==0) {
+    	while (analog(0)<3200) {
+        	motor(0,50);
+        	motor(1,50);
+    	}
+        while (analog(0)>3200) {
+            x = x+1;
+        }
+    }
+    mrp(0,250,500);
+    mrp(1,250,500);
+    bmd(0);
+    bmd(1);
+    while (analog(0)<3200) {
+        motor(0,50);
+        motor(1,50);
+    }
+    return 0;*/
+    
+    //Challenge 5: Stay in Box, Move within Box until Time
+    /*moveSeconds(20);
+    return 0;*/
+    
+    //Challenge 6: Line Following
+    int x = 0;
+    while (x<10000) {
+    	while (analog(0)<3000) {
+            motor(1,40);
+            motor(0,5);
+            int sensor = analog(0);
+            msleep(100);
+            //int curr = analog(0) - sensor;
+            int curr = 3000 - sensor;
+            int speed = curr * 0.12;
+        	if (speed>40) { 
+                motor(1,40);
+            	motor(0,0);
+                //printf("The speed right now is 40. \n");
+            }
+            else {
+                motor(1,speed);
+                motor(0,0);
+                //printf("The speed right now is %i. \n", speed);
+            }
+            	//int sensor = analog(0);
+	        	//msleep(100);
+    	    	//int curr = analog(0) - sensor;
+            	//int curr = 3000 - sensor;
+        		//printf("The value right now is %i \n", curr);
+    	}
+    	while (analog(0)>3300) {
+        	motor(0,40);
+            motor(1,5);
+            	/*int sensor = analog(0);
+	        	msleep(100);
+    		    int curr = analog(0) - sensor;
+        		printf("The value right now is %i \n", curr);*/
+    	}
+        while (analog(0)>3000 && analog(0)<3300) {
+        	motor(0,20);
+            motor(1,20);
+            	/*int sensor = analog(0);
+        		msleep(100);
+        		int curr = analog(0) - sensor;
+        		printf("The value right now is %i \n", curr);*/
+    	}
+    }
+    return 0;
+}
+
+/*
+void moveSeconds (int sec) {
+    int timer = 0;
+    int curr = seconds();
+    while (timer<sec) {
+        motor(1,20);
+        motor(0,20);
+        msleep(1000);
+    	timer = seconds() - curr;
+    }
+    printf("%i", timer);
+}
+void turnDegrees(int degree) {
+    if (degree>0){
+    	double calculate = degree * 14.5;
+    	mrp(0,150,calculate);
+    	mrp(1,150,-calculate);
+    	bmd(0);
+    	bmd(1);
+    }
+    else {
+        double calculate = degree * 14.2;
+    	mrp(0,150,calculate);
+    	mrp(1,150,-calculate);
+    	bmd(0);
+    	bmd(1);
+    }
+}*/
+/*void moveSeconds (int sec) {
+    int timer = 0;
+    int curr = seconds();
+    while (timer<sec) {
+    	while (analog(0)<3200) {
+        	motor(0,50);
+        	motor(1,50);
+    	}
+        while (analog(0)>3200) {
+            motor(0,100);
+            motor(1,-100);
+        }
+        msleep(1000);
+        timer = seconds()-curr;
+    }
+    mrp(0,800,8000);
+    mrp(1,800,8000);
+    bmd(0);
+    bmd(1);
+}*/
