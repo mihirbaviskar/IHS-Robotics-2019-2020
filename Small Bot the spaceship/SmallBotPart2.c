@@ -24,58 +24,61 @@ back up
 some sort of line follow to get the hell out some how
 */
 
-int forward(int time){ //in msleep time
-    mtp(LEFTMOTOR,1500,1000);
-    mtp(LEFTMOTOR,1500,1000);
+void forward(int speed, int time){ //in msleep time
+    mtp(LEFTMOTOR,speed,1000); //mrp
+    mtp(LEFTMOTOR,speed,1000);
     msleep(time);
 }
-int back(int time){ //in msleep time
-    mtp(LEFTMOTOR,-1500,1000);
-    mtp(LEFTMOTOR,-1500,1000);
+void back(int speed, int time){ //in msleep time
+    mtp(LEFTMOTOR,-speed,1000); //mrp or motor
+    mtp(LEFTMOTOR,-speed,1000);
     msleep(time);
 }
-int lowerSpaceShip(int finalPos){
+void lowerSpaceShip(int finalPos){
     curPos = get_servo_position(int port);
-    while (curPos < finalPos){
-    set_servo_position(port, curPos+1);
-    msleep(10);
+    while (curPos < finalPos){ //placement inequality
+        set_servo_position(port, curPos+1);
+        msleep(10);
+    }
 }
-int raiseSpaceShip(int finalPos){
+void raiseSpaceShip(int finalPos){
     curPos = get_servo_position(int port);
-    while (curPos > finalPos){
-    set_servo_position(port, curPos-1);
-    msleep(10);
+    while (curPos > finalPos){ //placement inequality
+        set_servo_position(port, curPos-1);
+        msleep(10);
+    }
 } 
-int raiseSweeper(int time){  // sweeper is a motor
+void raiseSweeper(int time){  // sweeper is a motor
     mtp(LEFTMOTOR,1500,1000);
     mtp(LEFTMOTOR,1500,1000);
     msleep(time);
 }
-int lowerSweeper(int time){ // sweeeper is a motor
+void lowerSweeper(int time){ // sweeeper is a motor
     mtp(LEFTMOTOR,-1500,1000);
     mtp(LEFTMOTOR,-1500,1000);
     msleep(time);
 }
-}
+
 int main() {
     enable_servos();
     set_servo_position(port, pos);// so that both fit under bridge
     set_servo_position(port, pos);
     pid_one_sensor_forwards_till_black(int target, int speed, int milliseconds, int side);
-    forward(20); // reaches the other side of the tape
+    forward(speed, 20); // reaches the other side of the tape
     turnDegree(int degree);
     pid_one_sensor_forwards_timed(int speed, int milliseconds, int target, int side);// goes towards astronaut suits
     lowerSpaceShip(int finalPos); // slowly
     // open spaceship
     raiseSpaceShip(int finalPos); // lift spaceship a little bit
-    forward(10);
+    forward(speed, 10);
     lowerSpaceShip(int finalPos);// lower spaceship so that it touches ground
-    back(time);
+    back(speed, time);
     raiseSpaceShip(int finalPos); // lift spaceship a little bit
     raiseSweeper(int time); // raise so that it is able to turn
     turnDegree(int degree); // turn to make space for the cube dropping has to be one wheel so turn on the spot
-    forward(time); 
+    forward(speed, time); 
     lowerSweeper(int time);
     //get out of the way according to how big bot needs it
+    return 0;
 
 }
