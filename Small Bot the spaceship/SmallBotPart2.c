@@ -68,7 +68,7 @@ int main() {
     set_servo_position(port, pos);
     pid_one_sensor_forwards_till_black(int target, int speed, int milliseconds, int side);
     forward(speed, 20); // reaches the other side of the tape
-    turnDegree(int degree);
+    turnDegree(int degree); // stationary
     pid_one_sensor_forwards_timed(int speed, int milliseconds, int target, int side);// goes towards astronaut suits
     lowerSpaceShip(int finalPos); // slowly
     // open spaceship
