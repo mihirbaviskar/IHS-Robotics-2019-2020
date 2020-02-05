@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <botball.h>
+#include <stdbool.h>
+#include <math.h>
 #include <PID.h>
 #include <turn.h>
 
