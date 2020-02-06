@@ -8,10 +8,19 @@
 #define TOPHATR 1
 #define black
 #define white
+#define forward true
+#define backward false
 
 //void simultaneous();
 void lineCrossing(int tape);
-void firstTurn(int degrees);
+void woopTyWoo(int degrees);
+void goingOnATrip();
+void inOurFavoriteRocketShip();
+
+/* @function - 
+** @param1 -
+** @param2 -
+*/
 
 
 int main{
@@ -23,10 +32,59 @@ int main{
   set_servo_postion(sweeperClaw,?);
   set_servo_position(sweeper,?);
   disable_servos();
+  return 0;
+}
+
+/* @function - cross a certain # of black lines
+** @param1 - how many tape to cross
+** @param2 - which direction is it going
+*/
+void lineCrossing(int tape, boolean direction){
+  int counter = 0;
+  while(counter<tape){
+    if(direction){
+      while(TOPHATR < black){
+        move_to(100,100,1);
+        ao();
+      }
+      ao();
+      while(TOPHATR > white){
+        move_to(100,100,1);
+        ao();
+      }
+      ao();
+    }else{
+      while(TOPHATR < black){
+        move_to(-100,-100,1);
+        ao();
+      }
+      ao();
+      while(TOPHATR > white){
+        move_to(-100,-100,1);
+        ao();
+      }
+      ao();
+    }
+  }
+  counter++;
+}
+  
+/* @function - 
+** @param1 -
+** @param2 -
+*/
+void woopTyWoo(int degrees) {
+  double conversion = degrees * 8.5;
+  motor(left, 100);
+  motor(right, -100);
+  msleep(conversion);
+}
+
+void goingOnATrip(){
   //back up
-  lineCrossing(2);
+  lineCrossing(2); //backup
   //adjust
-  move_to(100,100,500);
+  move_to(100,100,500); //adjust
   //claw close
   enable_servos();
   set_servo_postion(sweeperClaw,?);
@@ -42,39 +100,5 @@ int main{
   //turn left
   firstTurn(90);
   //line follow until in front of astronauts
-  pid_one_sensor_forwards(black,75,3000,1)
-  //lift spaceship up
-  //open spaceship
-  //move forward a little
-  //go down into position
-  //close spaceship on astronauts
-  //back up a little
-  //bring spaceship down
-  //line follow with sensor under the bridge
-  return 0;
-}
-
-
-void lineCrossing(int tape){
-int counter = 0;
-  while(counter<tape){
-    while(TOPHATR < black){
-      move_to(-100,-100,1);
-      ao();
-    }
-    ao();
-    while(TOPHATR > white){
-      move_to(-100,-100,1);
-      ao();
-     }
-    ao();
-    counter++;
+  pid_one_sensor_forwards(black,75,3000,1);
   }
- }
- 
- void firstTurn(int degrees) {
-    double conversion = degrees * 8.5;
-    motor(left, 100);
-    motor(right, -100);
-    msleep(conversion);
-}
