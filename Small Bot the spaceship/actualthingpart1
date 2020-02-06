@@ -1,5 +1,6 @@
 #include <PID.h>
 #include <stdio.h>
+#include <stdio.bool>
 #define sweeper 0
 #define sweeperClaw 1
 #define spaceshipJoint 2
@@ -11,25 +12,26 @@
 #define forward true
 #define backward false
 
-//void simultaneous();
 void animalCrossing(int tape, boolean direction);
 void woopTyWoo(int degrees);
 void goingOnATrip();
 void inOurFavoriteRocketShip();
 void soaringThroughTheSky();
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ start of reference ~~~~~~~~~~~~~~~~~~~~~~~~~~//
 /* @function - 
 ** @param1 -
 ** @param2 -
 */
-
+//void simultaneous();
+/*thread nameHere;
+  nameHere = thread_create(simultaneous);
+  thread_start(nameHere);*/
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ end of reference ~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 int main{
   //bring down sweeper
   enable_servos();
-  /*thread nameHere;
-  nameHere = thread_create(simultaneous);
-  thread_start(nameHere);*/
   set_servo_postion(sweeperClaw,?);
   set_servo_position(sweeper,?);
   disable_servos();
@@ -70,40 +72,44 @@ void animalCrossing(int tape, boolean direction){
   counter++;
 }
   
-/* @function - turns right a certain degree
+/* @function - turns left a certain degree
 ** @param1 - degrees you want to turn
 */
 void woopTyWoo(int degrees) {
   double conversion = degrees * 8.5;
-  motor(left, 100);
-  motor(right, -100);
+  motor(left, -100);
+  motor(right, 100);
   msleep(conversion);
 }
 
+/* @function - going backward and picking up cubes
+*/
 void goingOnATrip(){
-  lineCrossing(2); //backup
+  animalCrossing(2, backward); //backup
   move_to(100,100,500); //adjust
-  //claw close
   enable_servos();
-  set_servo_postion(sweeperClaw,?);
+  set_servo_postion(sweeperClaw,?); //close claw
   disable_servos();
-  //bring claw/sweeper up
-  set_servo_position(sweeper,?);
+  set_servo_position(sweeper,?); //bring sweeper up
 }
 
+/* @function - going forward and turn before going to astronauts
+*/
 void inOurFavoriteRocketShip(){
-  //forward
-  lineCrossing(1);
-  //turn left
-  firstTurn(90);
-  //line follow till sensor black
-  pid_one_sensor_forwards_till_black(black,75,5000,1);
-  //turn left
-  firstTurn(90);
-  //line follow until in front of astronauts
-  pid_one_sensor_forwards(black,75,3000,1);
+  animalCrossing(1, forward); //foward
+  woopTyWoo(90); //turn left
+  pid_one_sensor_forwards_till_black(black,75,5000,1); //line follow till black
+  woopTyWoo(90); //turn left
+  pid_one_sensor_forwards(black,75,3000,1); //line follow until in front of astronauts
 }
 
 void soaringThroughTheSky(){
-
+  //lift spaceship up
+  //open spaceship
+  //move forward a little
+  //go down into position
+  //close spaceship on astronauts
+  //back up a little
+  //bring spaceship down
+  //line follow with sensor under the bridge
 }
