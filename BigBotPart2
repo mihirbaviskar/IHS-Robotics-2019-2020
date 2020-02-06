@@ -15,8 +15,7 @@ int main(){
 }
 
 void begin(){
-	enable_servos();
-servofunc(/*filll in here*/, /*fill in here*/);
+	servofunc(/*filll in here*/, /*fill in here*/);
 }
 int turnitup(int length, int dir ){      
 	if(dir==0){ //CCW(left)
