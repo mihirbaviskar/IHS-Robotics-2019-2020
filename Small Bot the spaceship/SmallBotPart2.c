@@ -8,11 +8,12 @@
 // SWEEPER IS BACK AND SPACESHIP IS FRONT 
 /*
 BASIC STEPS
-linefollow until right sensor changes from white to black
+linefollow for certain amount of time till hits pipe
 turn right
-go forward for a certain amount of time (maybe with line following)
+follow pipe using button stop after certain amount of time in front of astronauts
 lower arm to put astronauts in their suits
 open spaceship
+raise arm
 close spaceship
 go forward a little
 completely lower arm
@@ -26,46 +27,36 @@ open the sweeper
 back up
 some sort of line follow to get the hell out some how
 */
+#define LEFTMOTOR 0
+#define RIGHTMOTOR 1
 
 void forward(int speed, int time){ //in msleep time
-    mtp(LEFTMOTOR,speed,1000); //mrp
-    mtp(LEFTMOTOR,speed,1000);
+    motor(LEFTMOTOR,speed); //mrp
+    motor(RIGHTMOTOR,speed);
     msleep(time);
 }
 void back(int speed, int time){ //in msleep time
-    mtp(LEFTMOTOR,-speed,1000); //mrp or motor
-    mtp(LEFTMOTOR,-speed,1000);
+    motor(LEFTMOTOR,speed); //mrp or motor
+    motor(LEFTMOTOR,speed);
     msleep(time);
 }
-void lowerSpaceShip(int finalPos){
+void moveSpaceShip(int speed, int finalPos){ // negetive for down 
     curPos = get_servo_position(int port);
-    while (curPos < finalPos){ //placement inequality
+    while (curPos < finalPos){  //placement inequality
         set_servo_position(port, curPos+1);
         msleep(10);
     }
 }
-void raiseSpaceShip(int finalPos){
-    curPos = get_servo_position(int port);
-    while (curPos > finalPos){ //placement inequality
-        set_servo_position(port, curPos-1);
-        msleep(10);
-    }
-} 
-void raiseSweeper(int time){  // sweeper is a motor
-    mtp(LEFTMOTOR,1500,1000);
-    mtp(LEFTMOTOR,1500,1000);
-    msleep(time);
-}
-void lowerSweeper(int time){ // sweeeper is a motor
-    mtp(LEFTMOTOR,-1500,1000);
-    mtp(LEFTMOTOR,-1500,1000);
+void moveSweeper(int speed, int time){  // sweeper is a motor, negetive for down
+    motor(LEFTMOTOR,speed);
+    motor(LEFTMOTOR,speed);
     msleep(time);
 }
 
 int main() {
     enable_servos();
-    set_servo_position(port, pos);// so that both fit under bridge
-    set_servo_position(port, pos);
+    moveSpaceShip(speed, finalpos);// so that spaceship fits under bridge
+    moveSweeper(port, pos); // sweeper fits under the bridge
     pid_one_sensor_forwards_till_black(int target, int speed, int milliseconds, int side);
     forward(speed, 20); // reaches the other side of the tape
     turnDegree(int degree); // stationary
