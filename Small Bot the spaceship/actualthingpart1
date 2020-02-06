@@ -16,7 +16,7 @@ void animalCrossing(int tape, boolean direction);
 void woopTyWoo(int degrees);
 void goingOnATrip();
 void inOurFavoriteRocketShip();
-void soaringThroughTheSky();
+void zoomingThroughTheSky();
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ start of reference ~~~~~~~~~~~~~~~~~~~~~~~~~~//
 /* @function - 
@@ -103,7 +103,7 @@ void inOurFavoriteRocketShip(){
   pid_one_sensor_forwards(black,75,3000,1); //line follow until in front of astronauts
 }
 
-void soaringThroughTheSky(){
+void zoomingThroughTheSky(){
   //lift spaceship up
   //open spaceship
   //move forward a little
