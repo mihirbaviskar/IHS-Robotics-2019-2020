@@ -8,11 +8,11 @@ int servofunc(int, int);
 
 int main(){
 	begin(); // Servo function
-	turnitup(100,0) // Turns to the left
-	create_drive_direct(/*fill in here*/);
-	turnitup(170,1);
-	prettyStraightforward(/*fill in here*/);
-	servofunc(/*fill in here*/, /*fill in here*/);
+	turnitup(100,0) // Two Wheel turns to the left
+	create_drive_direct(/*fill in here*/);  //Moves till ready to push the bowl
+	turnitup(170,1);  //Pushes the bowl out from under the cardboard, ends facing starting place/box
+	prettyStraightforward(/*fill in here*/);  //goes back to the starting box/place
+	servofunc(/*fill in here*/, /*fill in here*/); //dumps poms into bowl
 }
 
 int turnitup(int length, int dir ){      
