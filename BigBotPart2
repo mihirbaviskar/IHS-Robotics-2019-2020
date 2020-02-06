@@ -1,0 +1,37 @@
+#include <kipr/botball.h>
+int mm=50;
+
+void begin();
+int turnitup(int, int);
+int prettyStraightforward(int distance);//
+int servofunc(int, int);
+
+int main(){
+	turnitup(100,0)
+	create_drive_direct(/*fill in here*/);
+	turnitup(170,1);
+	prettyStraightforward(/*fill in here*/);
+	servofunc(/*fill in here*/, /*fill in here*/);
+}
+
+void begin(){
+	enable_servos();
+servofunc(/*filll in here*/, /*fill in here*/);
+}
+int turnitup(int length, int dir ){      
+	if(dir==0){ //CCW(left)
+	create_drive(-length,length);   
+msleep(length*mm);	
+}
+if(dir==1){ //CW(right)
+create_drive(length,-length);	
+msleep(length*mm);
+}
+}
+int prettyStraightforward(int dist){ // Going straight 
+	create_drive_direct(dist);
+}
+int servofunc(int servo, int pos){
+	set_servo_position(servo,pos);
+}
+
