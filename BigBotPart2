@@ -1,22 +1,20 @@
 #include <kipr/botball.h>
 int mm=50;
 
-void begin();
-int turnitup(int, int);
-int prettyStraightforward(int distance);//
+void begin();   //servo function
+int turnitup(int, int);//two wheel turn, int1 is how much, int2 is CW or CCW
+int prettyStraightforward(int distance);  //forward function
 int servofunc(int, int);
 
 int main(){
-	turnitup(100,0)
+	begin(); // Servo function
+	turnitup(100,0) // Turns to the left
 	create_drive_direct(/*fill in here*/);
 	turnitup(170,1);
 	prettyStraightforward(/*fill in here*/);
 	servofunc(/*fill in here*/, /*fill in here*/);
 }
 
-void begin(){
-	servofunc(/*filll in here*/, /*fill in here*/);
-}
 int turnitup(int length, int dir ){      
 	if(dir==0){ //CCW(left)
 	create_drive(-length,length);   
@@ -27,10 +25,15 @@ create_drive(length,-length);
 msleep(length*mm);
 }
 }
+
 int prettyStraightforward(int dist){ // Going straight 
 	create_drive_direct(dist);
 }
+
 int servofunc(int servo, int pos){
 	set_servo_position(servo,pos);
 }
 
+void begin(){
+servofunc(/*filll in here*/, /*fill in here*/);
+}
