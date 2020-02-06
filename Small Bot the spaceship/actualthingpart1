@@ -4,7 +4,6 @@
 #define sweeper 0
 #define sweeperClaw 1
 #define spaceshipJoint 2
-#define spaceshipHead 3
 #define TOPHATL 0
 #define TOPHATR 1
 #define black
@@ -104,7 +103,6 @@ void inOurFavoriteRocketShip(){
 }
 
 void zoomingThroughTheSky(){
-  //lift spaceship up
   //open spaceship
   //move forward a little
   //go down into position
