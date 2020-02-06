@@ -1,19 +1,3 @@
-//move back to adjust sweeper over both rows
-//bring sweeper down
-//close sweeper
-//bring sweeper up (which bring spaceship down)
-//turn left and square up the robot (sweeper facing) against the pipe
-//move forward until sensor is over black line
-//SOMEHOW GET TO ASTRONAUTS
-//lift spaceship up
-//open spaceship
-//move forward a little
-//go down into position
-//close spaceship on astronauts
-//back up a little
-//bring spaceship down
-//line follow with sensor under the bridge
-
 #include <PID.h>
 #include <stdio.h>
 #define sweeper 0
@@ -59,7 +43,14 @@ int main{
   firstTurn(90);
   //line follow until in front of astronauts
   pid_one_sensor_forwards(black,75,3000,1)
-  //
+  //lift spaceship up
+  //open spaceship
+  //move forward a little
+  //go down into position
+  //close spaceship on astronauts
+  //back up a little
+  //bring spaceship down
+  //line follow with sensor under the bridge
   return 0;
 }
 
