@@ -920,8 +920,6 @@ gyro turn
 
 
     int rotate(double angle, int speed) {  //Bot turns by a given set degree relative to its position //speed cap might be 70
-        //speed +=(int)(abs(angle)/5);
-        //int max = -1;
         speed = 50;
         angle = angle*angle_offset; //convert angle -> suitable form for gyro
         printf("\nThe desired angle is: %lf\n", angle);
@@ -931,27 +929,11 @@ gyro turn
         int currentAngle = 0; //set our relative angle to 0
 
         int t0 = seconds(); //set current time to variable
-        //double speed_offset; //declare movement offset commented out so compile looks beautiful
-
-        /* PID Constants */
-       //double pid_P = 0; //test valuecommented out so compile looks beautiful
-        //double pid_I = 0; commented out so compile looks beautiful
-        //double pid_D = 0;commented out so compile looks beautiful
-
-        //bool zero_reached = false;
         while(1) {
             if (angle > 0) { //clockwise turn
             	currentAngle -= (int)(gyro_z()-avg)*(seconds()-t0); //increase currentAngle by avg of each gyro_z value
                 //printf("This is a current angle that u have n want: %i\t%lf\n", currentAngle, angle);
-                //restate array values
-                /*
-                angle_arr[PREV_ANGLE] = angle_arr[CURRENT_ANGLE]; //set previous angle 
-                angle_arr[CURRENT_ANGLE] = currentAngle; //update new angle
-                angle_arr[CHANGE_IN_ANGLE] = angle_arr[CURRENT_ANGLE] - angle_arr[PREV_ANGLE]; //calculate difference between the two angles
-*				*/
-                //calculate new speed
-                //speed_offset = (pid_P)*(angle_arr[CURRENT_ANGLE]) + (pid_D)*(angle_arr[CHANGE_IN_ANGLE]); //compute offset using pid_P and pid_D
-
+		    
                 //adjust motor
                 //motor(LWHEEL, speed+speed_offset); //move stationary CW
                 //motor(RWHEEL, speed-speed_offset);
@@ -962,38 +944,13 @@ gyro turn
                 
                 if (currentAngle >= angle) { //if the currentAngle reaches the final angle
                     printf("Final ANGLE HAS BEEN REACHED\n");
-                    //reverse speed CCW for 10ms   
-                /*
-                if (!(zero_reached)) {
-                	currentAngle -= (int)(gyro_z()-avg)*(seconds()-t0);
-                    //printf("ZERO_NOT_REACHED, %i\n", (int)(gyro_z()-avg)*(seconds()-t0));
-                }
-                else if (zero_reached) {
-                    printf("ZERO_REACHED, MAX: %i\n", max/2);
-                    currentAngle += (int)(max/2)*(seconds()-t0);
-                }
-                //increase currentAngle by each offset gyro_z value
-                //restate array values
-                angle_arr[PREV_ANGLE] = angle_arr[CURRENT_ANGLE]; //set previous angle 
-                angle_arr[CURRENT_ANGLE] = currentAngle; //update new angle
-                angle_arr[PREV_VELOCITY] = angle_arr[CURRENT_VELOCITY];
-                angle_arr[CURRENT_VELOCITY] = angle_arr[CURRENT_ANGLE] - angle_arr[PREV_ANGLE]; //calculate difference between the two angles(velocity)
-                angle_arr[CHANGE_IN_VELOCITY] = angle_arr[CURRENT_VELOCITY] - angle_arr[PREV_VELOCITY];
-                if (zero_reached == false && angle_arr[CURRENT_VELOCITY] > max) { max = angle_arr[CURRENT_VELOCITY]; }
-                if ((angle_arr[CHANGE_IN_VELOCITY] < -50)) { 
-                    zero_reached = true;
-                }
-				//printf("Prev Angle: %lf\n" ,angle_arr[PREV_ANGLE]);
+                    //reverse speed CCW for 10ms  
                 printf("Current_Angle: %lf\n" ,currentAngle);
-                //printf("Change in Velocity: %lf\n" ,angle_arr[CHANGE_IN_VELOCITY]); 
-                //calculate new speed
-                //speed_offset = (pid_P)*(angle_arr[CURRENT_ANGLE]) + (pid_D)*(angle_arr[CHANGE_IN_ANGLE]); //compute offset using pid_P and pid_D
                 //adjust motor
                 //motor(LWHEEL, speed+speed_offset); //move stationary CW
                 //motor(RWHEEL, speed-speed_offset);
                 
                 //adjust motor Create
-                //if (currentAngle >= angle*0.95) { speed = 11; }
                 create_drive_direct(speed, -speed);
                 msleep(1);
                 
