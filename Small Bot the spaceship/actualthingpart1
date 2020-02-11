@@ -108,7 +108,7 @@ void inOurFavoriteRocketShip(){
   pid_one_sensor_forwards(black,75,3000,1); //line follow until in front of astronauts
 }
 /* @function - picking up astronauts
-** note - new "claw"; must change game plan(?)
+** note - new "claw"; must change game plan
 **        anybody want to use a sensor to hit the bridge and check position?
 */
 void zoomingThroughTheSky(){
