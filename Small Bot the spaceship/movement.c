@@ -4,8 +4,8 @@ void forward(int speed, int time){ //in msleep time
     msleep(time);
 }
 void back(int speed, int time){ //in msleep time
-    motor(LEFTMOTOR,speed); //mrp or motor
-    motor(RIGHTMOTOR,speed);
+    motor(LEFTMOTOR,-speed); //mrp or motor
+    motor(RIGHTMOTOR,-speed);
     msleep(time);
 }
 void moveSpaceShip(int speed, int finalPos){ // negetive for down 
