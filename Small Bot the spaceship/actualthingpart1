@@ -109,12 +109,13 @@ void inOurFavoriteRocketShip(){
 }
 /* @function - picking up astronauts
 ** note - new "claw"; must change game plan(?)
+**        anybody want to use a sensor to hit the bridge and check position?
 */
 void zoomingThroughTheSky(){
-  //open spaceship
-  //move forward a little
-  //go down into position
-  //close spaceship on astronauts
+  //move forward a little into position
+  //adjust height of spaceship arm
+  //move forward to "fork" the astronauts
+  //lift arm slightly to secure the astronauts
   //back up a little
   //bring spaceship down
   //line follow with sensor under the bridge
