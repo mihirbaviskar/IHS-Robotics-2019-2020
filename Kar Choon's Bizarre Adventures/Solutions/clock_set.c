@@ -30,5 +30,5 @@ void clock_set() {
 			printf("%i", min);
 		}
 	} // continues loop
-	printf("\nYour time is set."); 
+	printf("\nYour time is now set."); 
 }
