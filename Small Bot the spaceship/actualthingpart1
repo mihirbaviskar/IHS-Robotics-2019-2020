@@ -1,6 +1,7 @@
 #include <PID.h>
 #include <stdio.h>
 #include <stdio.bool>
+#include <movement.h>
 
 #define sweeper 0
 #define sweeperClaw 1
@@ -46,23 +47,23 @@ void animalCrossing(int tape, boolean direction){
   while(counter<tape){
     if(direction){
       while(TOPHATR < black){
-        move_to(100,100,1);
+        forward(?,?);
         ao();
       }
       ao();
       while(TOPHATR > white){
-        move_to(100,100,1);
+        forward(?,?);
         ao();
       }
       ao();
     }else{
       while(TOPHATR < black){
-        move_to(-100,-100,1);
+        back(?,?);
         ao();
       }
       ao();
       while(TOPHATR > white){
-        move_to(-100,-100,1);
+        back(?,?);
         ao();
       }
       ao();
@@ -107,16 +108,21 @@ void inOurFavoriteRocketShip(){
   woopTyWoo(90); //turn left
   pid_one_sensor_forwards(black,75,3000,1); //line follow until in front of astronauts
 }
+
 /* @function - picking up astronauts
-** note - new "claw"; must change game plan
-**        anybody want to use a sensor to hit the bridge and check position?
+** note - values must be tested
 */
 void zoomingThroughTheSky(){
-  //move forward a little into position
-  //adjust height of spaceship arm
-  //move forward to "fork" the astronauts
-  //lift arm slightly to secure the astronauts
-  //back up a little
-  //bring spaceship down
-  //line follow with sensor under the bridge
+  enable_servos();
+  set_servo_position(spaceshipJoint, ?); //adjust height of spaceship arm
+  disable_servos();
+  forward(?,?); //move forward to "fork" the astronauts
+  enable_servos();
+  set_servo_position(spaceshipJoint, ?); //lift arm slightly to secure the astronauts
+  disable_servos();
+  back(?,?); //back up a little
+  enable_servos();
+  set_servo_position(spaceshipJoint, ?); //bring spaceship down
+  disable_servos();
+  pid_one_sensor_forwards(black,75,3000,1); //line follow with sensor under the bridge
 }
