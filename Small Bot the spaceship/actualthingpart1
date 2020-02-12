@@ -87,15 +87,15 @@ void woopTyWoo(int degrees) {
 */
 void goingOnATrip(){
   enable_servos();
-  set_servo_postion(sweeperClaw,?); //open sweeper
-  set_servo_position(sweeper,?); //bring down sweeper
+  set_servo_postion(sweeperClaw,1175); //open sweeper
   disable_servos();
+  moveSweeper(?,?); //bring sweeper down
   animalCrossing(2, backward); //backup
   move_to(100,100,500); //adjust
   enable_servos();
-  set_servo_postion(sweeperClaw,?); //close claw
+  set_servo_postion(sweeperClaw,1175); //close claw
   disable_servos();
-  set_servo_position(sweeper,?); //bring sweeper up
+  moveSweeper(?,?); //bring sweeper up
 }
 
 /* @function - going forward and turn before going to astronauts
