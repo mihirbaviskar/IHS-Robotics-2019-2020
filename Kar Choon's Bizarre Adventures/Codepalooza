@@ -114,6 +114,37 @@ int main()
         }
     }*/
     
+    //Make Clock
+    int x = 0;
+    int y = 0;
+    int hour = 0;
+    int minute = 0;
+    printf("Your Time Now:\n00:00\n");
+    while (1) {
+        if (left_button() && x==0) {
+            if (hour<10 && minute<10) {
+            	console_clear();
+            	hour++;
+                printf("Your Time Now:\n0%i:0%i\n",hour,minute);
+                x++;
+            }
+            if (hour>9 && hour<13 && minute<10) {
+                console_clear();
+                hour++;
+                printf("Your Time Now:\n%i:0%i\n",hour,minute);
+                x++;
+            }
+            if (hour==13 && minute<10) {
+                console_clear();
+                hour = hour - 12;
+                printf("Your Time Now:\n0%i:0%i\n",hour,minute);
+                x++;
+            }
+        }
+        if (left_button()==0) {
+            x=0;
+        }
+    }
     return 0;
 }
 
