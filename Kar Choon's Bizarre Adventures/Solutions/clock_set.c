@@ -21,7 +21,11 @@ void clock_set() {
 			if (right_button()) { //if right button is pressed
 				while (right_button()) { msleep(1); } //breaks when the button isn't pressed anymore
 				min++; //add a minute
-				if(min>59) { min = 0; } //if minute is greater than 59, reset back to 0
+				if(min>59) { 
+					min = 0;
+					hour++;
+					if (hour > 12) { hour = 0; }
+				} //if minute is greater than 59, reset back to 0
 			}
 			console_clear(); //clear the screen
 			if (hour<10) { printf("0"); } //print out values
