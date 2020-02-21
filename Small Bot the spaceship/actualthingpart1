@@ -86,12 +86,14 @@ void woopTyWoo(int degrees) {
 ** note - values must be tested
 */
 void goingOnATrip(){
+  move_to(100,100,???);
+  //turn
   enable_servos();
   set_servo_postion(sweeperClaw,1175); //open sweeper
   disable_servos();
   moveSweeper(?,?); //bring sweeper down
   animalCrossing(2, backward); //backup
-  move_to(100,100,500); //adjust
+  move_to(100,100,???); //adjust
   enable_servos();
   set_servo_postion(sweeperClaw,1175); //close claw
   disable_servos();
