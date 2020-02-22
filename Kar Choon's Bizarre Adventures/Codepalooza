@@ -5,7 +5,8 @@
 //void turnDegrees(int);
 //void moveSeconds(int);
 //void clock_set();
-void timer(int);
+void button_turn(int);
+void button_move();
 
 int main()
 {
@@ -221,6 +222,7 @@ int main()
     }*/
     
     //Challenge 5: RENEGADE turn
+    /*
     thread 
     while (timer<sec) {
         if (!digital(0)) {
@@ -233,8 +235,10 @@ int main()
         }
     }
     return 0;
+    */
+    button_turn(5);
+    return 0;
 }
-
 /*void clock_set() {
     printf("00:00");
 	int min = 0; int hour = 0;
@@ -312,12 +316,28 @@ void turnDegrees(int degree) {
     bmd(0);
     bmd(1);
 }*/
-
-void timer (int sec) {
-    int timer = 0;
+void button_turn (int sec) {
+    thread move;
+    move = thread_create(button_move);
+    thread_start(move);
+    int elapsed = 0;
     int curr = seconds();
-    while (timer<sec) {
+   	while (elapsed < sec) {
         msleep(1000);
-        timer = seconds()-curr;
+        elapsed = seconds() - curr;
+    }
+    thread_destroy(move);
+}
+
+void button_move () {
+    while (1) {
+        if (!digital(0)) {
+            mav(0,50);
+            mav(1,50);
+        }
+        else if (digital(0)) {
+            mav(0,50);
+            mav(1,-50);
+        }
     }
 }
