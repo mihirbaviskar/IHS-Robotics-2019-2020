@@ -94,10 +94,7 @@ void goingOnATrip(){
   moveSweeper(?,?); //bring sweeper down
   animalCrossing(2, backward); //backup
   move_to(100,100,???); //adjust
-  enable_servos();
-  set_servo_postion(sweeperClaw,1175); //close claw
-  disable_servos();
-  moveSweeper(?,?); //bring sweeper up
+  //theWholeShabang function
 }
 
 /* @function - going forward and turn before going to astronauts
