@@ -95,11 +95,13 @@ void goingOnATrip(){
   }
   ao();
   move_to(100,100,2000); //move forward to go against pipe
-  //code already made to bring down claw
+  enable_servos();
+  set_servo_position(sweeperClaw,1350);
+  moveSweeper(70,400);
+  msleep(100);
   animalCrossing(2, backward); //backup & push boxes together
   move_to(100,100,500); //adjust
-  theWholeShabang
-  //theWholeShabang function
+  theWholeShabang();
 }
 
 /* @function - going forward and turn before going to astronauts
@@ -107,9 +109,9 @@ void goingOnATrip(){
 */
 void inOurFavoriteRocketShip(){
   animalCrossing(1, forward); //foward
-  woopTyWoo(90); //turn left
+  move_to(-100,100,765); //turn left
   pid_one_sensor_forwards_till_black(black,75,5000,1); //line follow till black
-  woopTyWoo(90); //turn left
+  move_to(-100,100,765); //turn left
   pid_one_sensor_forwards(black,75,3000,1); //line follow until in front of astronauts
 }
 
