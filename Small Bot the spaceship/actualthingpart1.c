@@ -6,8 +6,7 @@
 #define sweeper 0
 #define sweeperClaw 1
 #define spaceshipJoint 2
-#define TOPHATL 0
-#define TOPHATR 1
+#define TOPHAT 0
 #define black
 #define white
 #define forward true
@@ -86,14 +85,20 @@ void woopTyWoo(int degrees) {
 ** note - values must be tested
 */
 void goingOnATrip(){
-  move_to(100,100,???);
-  //turn
-  enable_servos();
-  set_servo_postion(sweeperClaw,1175); //open sweeper
-  disable_servos();
-  moveSweeper(?,?); //bring sweeper down
-  animalCrossing(2, backward); //backup
-  move_to(100,100,???); //adjust
+  while(TOPHAT < black){ //move forward
+    move_to(100,100,1);
+  }
+  ao();
+  move_to(-100,-100,100); //adjust
+  while(TOPHAT < black){ //turn
+    move_to(-25,-50,1);
+  }
+  ao();
+  move_to(100,100,2000); //move forward to go against pipe
+  //code already made to bring down claw
+  animalCrossing(2, backward); //backup & push boxes together
+  move_to(100,100,500); //adjust
+  theWholeShabang
   //theWholeShabang function
 }
 
