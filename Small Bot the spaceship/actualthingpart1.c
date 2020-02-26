@@ -1,134 +1,160 @@
-#include <PID.h>
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ main ~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
 #include <stdio.h>
-#include <stdio.bool>
+#include <kipr/botball.h>
+#include <stdbool.h>
 #include <movement.h>
+#include <Claw.h>
 
-#define sweeper 0
-#define sweeperClaw 1
-#define spaceshipJoint 2
-#define TOPHAT 0
-#define black
-#define white
-#define forward true
-#define backward false
-
-void animalCrossing(int tape, boolean direction);
-void woopTyWoo(int degrees);
-void goingOnATrip();
-void inOurFavoriteRocketShip();
-void zoomingThroughTheSky();
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ reference ~~~~~~~~~~~~~~~~~~~~~~~~~~//
-/* @function - 
-** @param1 -
-** @param2 -
-*/
-//void simultaneous();
-/*thread nameHere;
-  nameHere = thread_create(simultaneous);
-  thread_start(nameHere);*/
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-
-int main{
-  goingOnATrip();
-  inOurFavoriteRocketShip();
-  zoomingThroughTheSky();
-  return 0;
+int main() {
+    pid_one_sensor_forwards(1600, 600, 20000, 'R', 0, 0.15);
+    /*enable_servos();
+  	moveSweeper(70,400);
+  	msleep(500);
+    theWholeShebang();
+    disable_servos();*/
+    return 0;
 }
 
-/* @function - cross a certain # of black lines
-** @param1 - how many tape to cross
-** @param2 - which direction is it going
-** note - values must be tested
-*/
-void animalCrossing(int tape, boolean direction){
-  int counter = 0;
-  while(counter<tape){
-    if(direction){
-      while(TOPHATR < black){
-        forward(?,?);
-        ao();
-      }
-      ao();
-      while(TOPHATR > white){
-        forward(?,?);
-        ao();
-      }
-      ao();
-    }else{
-      while(TOPHATR < black){
-        back(?,?);
-        ao();
-      }
-      ao();
-      while(TOPHATR > white){
-        back(?,?);
-        ao();
-      }
-      ao();
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FloorPlan ~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+#include <kipr/botball.h>
+
+#define TOPHAT analog(0)
+#define FORWARD true
+#define BACKWARD false
+#define BLACK 2000
+#define WHITE
+#define SWEEPERCLAW 0
+#define SWEEPERARM 1
+#define SPACESHIPARM 2
+#define SPACESHIPHEAD 3
+
+void startPos(){
+    moveSweeper(70,1200); //UP???
+    moveSpaceShip(70,0); //UP (change val; adjust to astronaut height)
+    set_servo_position(SWEEPERCLAW,1350); //OPEN
+    set_servo_position(SPACESHIPHEAD,); //original tilt position
+}
+
+void animalCrossing(int tape, bool direction){
+    int counter = 0;
+    while(counter < tape){
+        if(direction){
+            while(TOPHAT < BLACK){
+                move_to(100,100,1);
+                ao();
+            }
+            ao();
+            while(TOPHAT > WHITE){
+                move_to(100,100,1);
+                ao();
+            }
+            ao();
+        }else{
+            while(TOPHAT < BLACK){
+                move_to(-100,-100,1);
+                ao();
+                
+            }
+            ao();
+            while(TOPHAT > WHITE){
+                move_to(-100,-100,1);
+                ao();
+            }
+            ao();
+        }
     }
-  }
-  counter++;
-}
-  
-/* @function - turns left a certain degree
-** @param1 - degrees you want to turn
-*/
-void woopTyWoo(int degrees) {
-  double conversion = degrees * 8.5;
-  motor(left, -100);
-  motor(right, 100);
-  msleep(conversion);
+    counter++;
 }
 
-/* @function - get in position, go backward and pick up cubes
-** note - values must be tested
-*/
 void goingOnATrip(){
-  while(TOPHAT < black){ //move forward
-    move_to(100,100,1);
-  }
-  ao();
-  move_to(-100,-100,100); //adjust
-  while(TOPHAT < black){ //turn
-    move_to(-25,-50,1);
-  }
-  ao();
-  move_to(100,100,2000); //move forward to go against pipe
-  enable_servos();
-  set_servo_position(sweeperClaw,1350);
-  moveSweeper(70,400);
-  msleep(100);
-  animalCrossing(2, backward); //backup & push boxes together
-  move_to(100,100,500); //adjust
-  theWholeShabang();
+    while(TOPHAT < BLACK){ //move forward
+        move_to(100,100,1);
+    }
+    ao();
+    move_to(-100,-100,100); //adjust
+    while(TOPHAT < BLACK){ //turn
+        move_to(-25,-50,1);
+    }
+    ao();
+    move_to(100,100,2000); //move forward to go against pipe
+    enable_servos();
+    set_servo_position(SWEEPERCLAW,1350);
+    moveSweeper(70,400);
+    msleep(100);
+    animalCrossing(2, BACKWARD); //backup & push boxes together
+    move_to(100,100,500); //adjust
+    theWholeShebang();
 }
 
-/* @function - going forward and turn before going to astronauts
-** note - values must be tested
-*/
 void inOurFavoriteRocketShip(){
-  animalCrossing(1, forward); //foward
-  move_to(-100,100,765); //turn left
-  pid_one_sensor_forwards_till_black(black,75,5000,1); //line follow till black
-  move_to(-100,100,765); //turn left
-  pid_one_sensor_forwards(black,75,3000,1); //line follow until in front of astronauts
+    animalCrossing(1, FORWARD); //foward
+    move_to(50,100,90*8.5); //turn left
+    pid_one_sensor_forwards_till_black(BLACK,75,5000,1); //!! wrong analog !!
+    move_to(50,100,90*8.5); //turn left
+    pid_one_sensor_forwards(BLACK,75,3000,1); //into the astronauts
 }
 
-/* @function - picking up astronauts
-** note - values must be tested
-*/
 void zoomingThroughTheSky(){
-  enable_servos();
-  set_servo_position(spaceshipJoint, ?); //adjust height of spaceship arm
-  disable_servos();
-  forward(?,?); //move forward to "fork" the astronauts
-  enable_servos();
-  set_servo_position(spaceshipJoint, ?); //lift arm slightly to secure the astronauts
-  disable_servos();
-  back(?,?); //back up a little
-  enable_servos();
-  set_servo_position(spaceshipJoint, ?); //bring spaceship down
-  disable_servos();
-  pid_one_sensor_forwards(black,75,3000,1); //line follow with sensor under the bridge
+    set_servo_position(SPACESHIPHEAD, ?); //tilt head
+    move_to(-100,-100,1000)
+    set_servo_position(SPACESHIPARM, ?); //lower spaceship
+    pid_one_sensor_forwards(BLACK,75,3000,1); //go under bridge
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Claw ~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+#include <kipr/botball.h>
+
+#define TOPHAT analog(0)
+#define FORWARD true
+#define BACKWARD false
+#define BLACK 2000
+#define WHITE
+#define SWEEPERCLAW 0
+#define SWEEPERARM 1
+
+void clapClaw(int speed, int finalClaw){
+    int curClaw = get_servo_position(SWEEPERCLAW)
+    while(curClaw > finalClaw){
+        set_servo_position(SWEEPERCLAW, curClaw - 5);
+    	curClaw = get_servo_position(SWEEPERCLAW);
+        msleep(speed);
+    }
+}
+
+void theActualThing(){
+    clapClaw(1,525);
+}
+
+void theWholeShebang(){
+    /*clapClaw(1,1000);
+    set_servo_position(SWEEPERCLAW,1350);
+  	moveSweeper(70,400);
+    msleep(200);*/
+    thread sweeperPickUp;
+	sweeperPickUp = thread_create(theActualThing);
+	thread_start(sweeperPickUp);
+    msleep(500);
+    moveSweeper(50,1200); //make it lower
+    thread_destroy(sweeperPickUp);
+}
+
+void goingOnATrip(){
+    while(TOPHAT < BLACK){ //move forward
+        move_to(100,100,1);
+    }
+    ao();
+    move_to(-100,-100,100); //adjust
+    while(TOPHAT < BLACK){ //turn
+        move_to(-25,-50,1);
+    }
+    ao();
+    move_to(100,100,2000); //move forward to go against pipe
+    moveSweeper(70,400);
+    msleep(100);
+    animalCrossing(2, BACKWARD); //backup & push boxes together
+    move_to(100,100,500); //adjust
+    theWholeShebang();
 }
