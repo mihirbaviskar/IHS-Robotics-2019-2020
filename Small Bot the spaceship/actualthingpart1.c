@@ -21,8 +21,8 @@
 int main() {
     pid_one_sensor_forwards(1600, 600, 20000, 'R', 0, 0.15);
     /*enable_servos();
-  	moveSweeper(70,400);
-  	msleep(500);
+    moveSweeper(70,400);
+    msleep(500);
     theWholeShebang();
     disable_servos();*/
     return 0;
@@ -136,7 +136,7 @@ void theActualThing(){
 void theWholeShebang(){
     /*clapClaw(1,1000);
     set_servo_position(SWEEPERCLAW,1350);
-  	moveSweeper(70,400);
+    moveSweeper(70,400);
     msleep(200);*/
     thread sweeperPickUp;
 	sweeperPickUp = thread_create(theActualThing);
