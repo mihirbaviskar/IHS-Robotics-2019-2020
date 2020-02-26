@@ -28,8 +28,8 @@ struct Camera {
 }
 
 struct View {
-  int mid_x;
-  int mid_y;
+  int x;
+  int y;
 }
 
 int camera_detect(int channel, int sec) {
