@@ -4,7 +4,10 @@
 #include <botball.h>
 
 #declare NULL -1
-#declare RANGE 1920*0.1;
+#declare XMAX 1920
+#declare YMAX 1080
+#declare MULTIPLIER
+#declare RANGE XMAX*MULTIPLIER;
 #declare KP 0.2
 #declare GREEN 3
 
@@ -47,7 +50,7 @@ int camera_detect(int channel, int sec) {
 }
 
 void camera_turn();) {
-  struct View v = {1920/2, 1080/2};
+  struct View v = {XMAX/2, YMAX/2};
   int diff = c.x - v.x;
   while (!(c.x >= v.x-RANGE && c.x <= v.x+RANGE)) {
     motor(LEFT, diff*KP);
