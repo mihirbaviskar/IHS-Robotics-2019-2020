@@ -3,13 +3,13 @@
 #include <math.h>
 #include <botball.h>
 
-#declare NULL -1
-#declare XMAX 1920
-#declare YMAX 1080
-#declare MULTIPLIER
-#declare RANGE XMAX*MULTIPLIER;
-#declare KP 0.2
-#declare GREEN 3
+#define NULL -1
+#define XMAX 1920
+#define YMAX 1080
+#define MULTIPLIER 0.05
+#define RANGE XMAX*MULTIPLIER;
+#define KP 0.2
+#define GREEN 3
 
 int camera_detect(int, int);
 void camera_turn();
