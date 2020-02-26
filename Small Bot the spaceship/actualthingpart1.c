@@ -5,12 +5,24 @@
 #include <stdbool.h>
 #include <movement.h>
 #include <Claw.h>
+#include <FloorPlan.h>
+
+/* February 27 Plan
+** - Test values for:
+**   - startPos()
+**   - WHITE
+**   - zoomingThroughTheSky()
+**   - theWholeShebang()
+** - Split into two teams for:
+**   - Test goingOnATrip() w/o theWholeShebang()
+**   - Update theWholeShebang()
+*/
 
 int main() {
     pid_one_sensor_forwards(1600, 600, 20000, 'R', 0, 0.15);
     /*enable_servos();
-    moveSweeper(70,400);
-    msleep(500);
+  	moveSweeper(70,400);
+  	msleep(500);
     theWholeShebang();
     disable_servos();*/
     return 0;
@@ -79,8 +91,6 @@ void goingOnATrip(){
     }
     ao();
     move_to(100,100,2000); //move forward to go against pipe
-    enable_servos();
-    set_servo_position(SWEEPERCLAW,1350);
     moveSweeper(70,400);
     msleep(100);
     animalCrossing(2, BACKWARD); //backup & push boxes together
@@ -107,11 +117,6 @@ void zoomingThroughTheSky(){
 
 #include <kipr/botball.h>
 
-#define TOPHAT analog(0)
-#define FORWARD true
-#define BACKWARD false
-#define BLACK 2000
-#define WHITE
 #define SWEEPERCLAW 0
 #define SWEEPERARM 1
 
@@ -139,22 +144,4 @@ void theWholeShebang(){
     msleep(500);
     moveSweeper(50,1200); //make it lower
     thread_destroy(sweeperPickUp);
-}
-
-void goingOnATrip(){
-    while(TOPHAT < BLACK){ //move forward
-        move_to(100,100,1);
-    }
-    ao();
-    move_to(-100,-100,100); //adjust
-    while(TOPHAT < BLACK){ //turn
-        move_to(-25,-50,1);
-    }
-    ao();
-    move_to(100,100,2000); //move forward to go against pipe
-    moveSweeper(70,400);
-    msleep(100);
-    animalCrossing(2, BACKWARD); //backup & push boxes together
-    move_to(100,100,500); //adjust
-    theWholeShebang();
 }
