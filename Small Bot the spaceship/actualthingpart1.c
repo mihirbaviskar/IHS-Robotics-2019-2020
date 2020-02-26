@@ -139,8 +139,8 @@ void theWholeShebang(){
     moveSweeper(70,400);
     msleep(200);*/
     thread sweeperPickUp;
-	sweeperPickUp = thread_create(theActualThing);
-	thread_start(sweeperPickUp);
+    sweeperPickUp = thread_create(theActualThing);
+    thread_start(sweeperPickUp);
     msleep(500);
     moveSweeper(50,1200); //make it lower
     thread_destroy(sweeperPickUp);
