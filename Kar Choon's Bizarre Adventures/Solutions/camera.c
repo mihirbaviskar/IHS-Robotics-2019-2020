@@ -6,6 +6,7 @@
 #define NULL -1
 #define XMAX 1920
 #define YMAX 1080
+#define MAXAREA 300
 #define MULTIPLIER 0.05
 #define RANGE XMAX*MULTIPLIER;
 #define KP 0.2
@@ -49,12 +50,25 @@ int camera_detect(int channel, int sec) {
   return 1;
 }
 
-void camera_turn();) {
+void camera_turn() {
   struct View v = {XMAX/2, YMAX/2};
   int diff = c.x - v.x;
   while (!(c.x >= v.x-RANGE && c.x <= v.x+RANGE)) {
     motor(LEFT, diff*KP);
     motor(RIGHT, -diff*KP);
   }
+void camera_move() {
+  
+  do {
+    camera_update();
+    if (get_object_count(channel) > 0) {
+      c.area = get_object_area(channel, 0);
+    }
+    motor(0, 50);
+    motor(1, 50);
+    msleep(1);
+  } while (c.area < MAXAREA)
+    
+}
 
 }
