@@ -1,5 +1,5 @@
 #include <kipr/botball.h>
-#include<stdbool.h>
+#include <stdbool.h>
 
 //void moveSeconds(int);
 //void turnDegrees(int);
