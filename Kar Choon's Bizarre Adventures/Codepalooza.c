@@ -10,8 +10,6 @@ void button_move();
 
 int main()
 {
-    /* Sween's Embarassment
-    clock_set();*/
     
     //Challenge 1: Move Forward for 10 seconds
     
