@@ -7,24 +7,27 @@
 #include <Claw.h>
 #include <FloorPlan.h>
 
-/* February 27 Plan
+/* March 2nd Plan
 ** - Test values for:
-**   - startPos()
-**   - WHITE
 **   - zoomingThroughTheSky()
-**   - theWholeShebang()
 ** - Split into two teams for:
-**   - Test goingOnATrip() w/o theWholeShebang()
-**   - Update theWholeShebang()
+**   - 
 */
 
 int main() {
-    pid_one_sensor_forwards(1600, 600, 20000, 'R', 0, 0.15);
-    /*enable_servos();
-    moveSweeper(70,400);
-    msleep(500);
+    //pid_one_sensor_forwards(1600, 600, 20000, 'R', 0, 0.15);
+    enable_servos();
+    startPos();
+    msleep(2000);
     theWholeShebang();
-    disable_servos();*/
+    move_to(-100,-98,3000);
+    /*move_to(50,-100,1100);
+    ao();
+    moveSweeper(70,400);
+    set_servo_position(0,1350);
+    msleep(5000);
+    startPos();*/
+    disable_servos();
     return 0;
 }
 
@@ -32,21 +35,22 @@ int main() {
 
 #include <kipr/botball.h>
 
+
 #define TOPHAT analog(0)
 #define FORWARD true
 #define BACKWARD false
 #define BLACK 2000
-#define WHITE
+#define WHITE 160
 #define SWEEPERCLAW 0
 #define SWEEPERARM 1
 #define SPACESHIPARM 2
 #define SPACESHIPHEAD 3
 
 void startPos(){
-    moveSweeper(70,1200); //UP???
-    moveSpaceShip(70,0); //UP (change val; adjust to astronaut height)
-    set_servo_position(SWEEPERCLAW,1350); //OPEN
-    set_servo_position(SPACESHIPHEAD,); //original tilt position
+    moveSweeper(70,1400); //UP
+    moveSpaceShip(70,100); //UP
+    set_servo_position(SWEEPERCLAW,1250); //OPEN
+    set_servo_position(SPACESHIPHEAD,0); //TILT DOWN
 }
 
 void animalCrossing(int tape, bool direction){
@@ -81,7 +85,7 @@ void animalCrossing(int tape, bool direction){
 }
 
 void goingOnATrip(){
-    while(TOPHAT < BLACK){ //move forward
+    /*while(TOPHAT < BLACK){ //move forward
         move_to(100,100,1);
     }
     ao();
@@ -95,23 +99,27 @@ void goingOnATrip(){
     msleep(100);
     animalCrossing(2, BACKWARD); //backup & push boxes together
     move_to(100,100,500); //adjust
-    theWholeShebang();
+    theWholeShebang();*/
+    move_to(40,-50,2000);
+    ao();
 }
 
-void inOurFavoriteRocketShip(){
+/*void inOurFavoriteRocketShip(){
+	set_servo_position(SPACESHIPHEAD,700);
+    moveSweeper(70,690);
     animalCrossing(1, FORWARD); //foward
-    move_to(50,100,90*8.5); //turn left
+    move_to(50,100,90*8.5); //turn left, TEST VAL
     pid_one_sensor_forwards_till_black(BLACK,75,5000,1); //!! wrong analog !!
-    move_to(50,100,90*8.5); //turn left
-    pid_one_sensor_forwards(BLACK,75,3000,1); //into the astronauts
+    move_to(50,100,90*8.5); //turn left, TEST VAL
+    pid_one_sensor_forwards(BLACK,75,3000,1,0,0); //into the astronauts
 }
 
 void zoomingThroughTheSky(){
-    set_servo_position(SPACESHIPHEAD, ?); //tilt head
-    move_to(-100,-100,1000)
-    set_servo_position(SPACESHIPARM, ?); //lower spaceship
-    pid_one_sensor_forwards(BLACK,75,3000,1); //go under bridge
-}
+    set_servo_position(SPACESHIPHEAD, 100); //tilt head
+    move_to(-100,-100,1000);//TEST VAL
+    set_servo_position(SPACESHIPARM, 900); //lower spaceship
+    pid_one_sensor_forwards(BLACK,75,3000,1,0,0); //TEST VAL
+}*/
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Claw ~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
@@ -121,27 +129,45 @@ void zoomingThroughTheSky(){
 #define SWEEPERARM 1
 
 void clapClaw(int speed, int finalClaw){
-    int curClaw = get_servo_position(SWEEPERCLAW)
+    int curClaw = get_servo_position(SWEEPERCLAW);
     while(curClaw > finalClaw){
         set_servo_position(SWEEPERCLAW, curClaw - 5);
     	curClaw = get_servo_position(SWEEPERCLAW);
         msleep(speed);
     }
+    msleep(2000);
 }
 
 void theActualThing(){
-    clapClaw(1,525);
+    clapClaw(1,550);
 }
 
 void theWholeShebang(){
-    /*clapClaw(1,1000);
+    moveSweeper(70,400);//DOWN
+  	msleep(500);
+    clapClaw(20,800);
+    msleep(1000);
     set_servo_position(SWEEPERCLAW,1350);
-    moveSweeper(70,400);
-    msleep(200);*/
+    msleep(1000);
+    clapClaw(10,600);
+    msleep(1000);
+    set_servo_position(SWEEPERCLAW,1350);
+  	moveSweeper(70,400);
+    msleep(1000);
     thread sweeperPickUp;
-    sweeperPickUp = thread_create(theActualThing);
-    thread_start(sweeperPickUp);
-    msleep(500);
-    moveSweeper(50,1200); //make it lower
+	sweeperPickUp = thread_create(theActualThing);
+	thread_start(sweeperPickUp);
+    msleep(600);
+    moveSweeper(50,1200);
     thread_destroy(sweeperPickUp);
 }
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ All Servo Values ~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//OPEN claw: 1250 (reset)
+//CLOSE claw: 550
+//Sweeper UP: 1400 (reset), 690 (final)
+//Sweeper DOWN: 400
+
+//TILT Spaceship: 0 (reset), 700 (straight), 100 (slanted)
+//Spaceship UP: 100 (reset)
+//Spaceship DOWN: 900
