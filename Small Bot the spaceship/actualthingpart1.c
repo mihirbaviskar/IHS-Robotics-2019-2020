@@ -8,10 +8,9 @@
 #include <FloorPlan.h>
 
 /* March 2nd Plan
-** - Test values for:
-**   - zoomingThroughTheSky()
 ** - Split into two teams for:
-**   - 
+**   - Perfect the turn
+**   - Fix the rest of goingOnATrip()
 */
 
 int main() {
