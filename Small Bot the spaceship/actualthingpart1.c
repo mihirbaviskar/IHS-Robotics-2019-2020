@@ -7,6 +7,9 @@
 #include <Claw.h>
 #include <FloorPlan.h>
 
+#define FORWARD true
+#define BACKWARD false
+
 /* March 3rd Plan
 ** - Perfect the turn
 ** - Test animalCrossing()
@@ -18,7 +21,8 @@ int main() {
     enable_servos();
     startPos();
     msleep(2000);
-    theWholeShebang();
+    animalCrossing(2,BACKWARD);
+    //theWholeShebang();
     /*move_to(50,-100,1100);
     ao();
     moveSweeper(70,400);
