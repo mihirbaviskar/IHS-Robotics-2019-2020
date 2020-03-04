@@ -10,25 +10,23 @@
 #define FORWARD true
 #define BACKWARD false
 
-/* March 3rd Plan
-** - Perfect the turn
-** - Test animalCrossing()
-** - Improve theWholeShebang()
+/* March 4th Plan
+** - 
 */
 
 int main() {
     //pid_one_sensor_forwards(1600, 600, 20000, 'R', 0, 0.15);
     enable_servos();
     startPos();
-    msleep(2000);
-    animalCrossing(2,BACKWARD);
+    msleep(1000);
     //theWholeShebang();
-    /*move_to(50,-100,1100);
+    //move_to(-100,-100,2000);
+    move_to(50,-100,1110);
     ao();
-    moveSweeper(70,400);
+    moveSweeper(70,465);
     set_servo_position(0,1350);
     msleep(5000);
-    startPos();*/
+    animalCrossing(2,BACKWARD);
     disable_servos();
     return 0;
 }
@@ -51,7 +49,7 @@ void startPos(){
     moveSweeper(70,1400); //UP
     moveSpaceShip(70,100); //UP
     set_servo_position(SWEEPERCLAW,1250); //OPEN
-    set_servo_position(SPACESHIPHEAD,0); //TILT DOWN
+    set_servo_position(SPACESHIPHEAD,50); //TILT DOWN
 }
 
 void animalCrossing(int tape, bool direction){
@@ -59,30 +57,33 @@ void animalCrossing(int tape, bool direction){
     while(counter < tape){
         if(direction){
             while(TOPHAT < BLACK){
-                move_to(100,100,1);
+                move_to(100,75,1);
                 ao();
+                printf("%d\n",counter);
             }
             ao();
             while(TOPHAT > WHITE){
-                move_to(100,100,1);
+                move_to(100,75,1);
                 ao();
+                printf("%d\n",counter);
             }
             ao();
         }else{
             while(TOPHAT < BLACK){
-                move_to(-100,-100,1);
+                move_to(-100,-71,10);
                 ao();
-                
+                printf("%d\n",counter);
             }
             ao();
             while(TOPHAT > WHITE){
-                move_to(-100,-100,1);
+                move_to(-100,-71,10);
                 ao();
+                printf("%d\n",counter);
             }
             ao();
         }
+        counter++;
     }
-    counter++;
 }
 
 void goingOnATrip(){
@@ -131,7 +132,7 @@ void clapClaw(int speed, int finalClaw){
 }
 
 void theActualThing(){
-    clapClaw(1,550); //test a slower speed
+    clapClaw(20,560); //test a slower speed
 }
 
 void theWholeShebang(){
@@ -148,8 +149,8 @@ void theWholeShebang(){
     thread sweeperPickUp;
 	sweeperPickUp = thread_create(theActualThing);
 	thread_start(sweeperPickUp);
-    msleep(600);
-    moveSweeper(50,1200); //make it lower
+    msleep(3000);
+    moveSweeper(30,1200); //make it lower
     thread_destroy(sweeperPickUp);
 }
 
