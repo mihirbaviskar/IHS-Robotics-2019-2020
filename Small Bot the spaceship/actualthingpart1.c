@@ -9,6 +9,7 @@
 
 /* March 4th Plan
 ** - Test the whole goingOnATrip()
+**   - Basically what is already in the main()
 ** - Perfect goingOnATrip()
 */
 
