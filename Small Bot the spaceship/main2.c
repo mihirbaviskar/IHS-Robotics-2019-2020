@@ -1,62 +1,112 @@
-#include <stdio.h>
-#include <botball.h>
-#include <stdbool.h>
-#include <math.h>
-#include <PIDMovement.h>
-#include <turn.h>
+#include <kipr/botball.h>
 #include <movement.h>
-// SWEEPER IS BACK AND SPACESHIP IS FRONT 
-/*
-BASIC STEPS
-linefollow for certain amount of time till hits pipe
-turn right
-follow pipe using button stop after certain amount of time in front of astronauts
-lower arm to put astronauts in their suits
-open spaceship
-raise arm
-close spaceship
-go forward a little
-completely lower arm
-backup to pull astronauts in
-lift spaceship (put down sweeper)
-back up a little
-put spaceship down a little (lift sweeper)
-backward turn
-put sweeper down
-open the sweeper
-back up
-some sort of line follow to get the hell out some how
-*/
+#include <PID.h>
+#include <AlignPerp.h>
+/* Ports */
 #define LEFTMOTOR 0
 #define RIGHTMOTOR 1
-#define BUTTONSENSOR ? 
-#define SWEEPERMOTOR ?
+//#define BUTTONSENSOR 3
+#define SWEEPERCLAW 0 
+#define SWEEPERRAISE 1
+#define SPACESHIP 2
+/* PID */
+#define LEFTSIDE 0
+#define RIGHTSIDE 1
+/* Align */
+#define OVERLINE 1
+#define UNDERLINE 2
+/* Claw Bounds */
+#define SWEEPMAX 1300
+#define SWEEPMED 750
+#define SWEEPMIN 250
+#define SWEEPCLOSE 450
+#define SWEEPDROP 975
+#define SWEEPOPEN 1500
 
-void forward(int speed, int time);
-void back(int speed, int time);
-void moveSpaceShip(int speed, int finalPos);
-void moveSweeper(int speed, int time);
-void pipefollowSwitch(double time);
-
+#define LFLINE analog(0)
+#define RTLINE analog(1)
+#define TARGET 1900
+#define WHITE analog(3) < TARGET
+#define BLACK analog(3) > TARGET
 int main() {
     enable_servos();
-    moveSpaceShip(speed, finalpos);// so that spaceship fits under bridge
-    moveSweeper(port, pos); // sweeper fits under the bridge
-    pid_one_sensor_forwards(int target, int speed, int milliseconds, int side); // moves till pipe
-    turnDegree(int degree); // stationary turn right
-    pipefollowSwitch(double time); // until astronauts
-    moveSpaceShip(int speed, int finalPos); // lower spaceship (-) speed 
-    // open spaceship dont know how it works yet
-    moveSpaceShip(speed, int finalPos); // raise spaceship speed should be pretty slow
-    forward(speed, 10);
-    moveSpaceShip(speed, int finalPos);// lower spaceship so that it touches ground
-    back(speed, time);
-    moveSpaceShip(speed, int finalPos);// lift spaceship a little bit
-    moveSweeper(speed, int time); // raise so that it is able to turn
-    turnDegree(int degree); // turn to make space for the cube dropping has to be one wheel so turn on the spot
-    forward(speed, time); 
-    moveSweeper(speed, int time); // lower sweeper to place blocks
-    //get out of the way according to how big bot needs it
+    
+    move_servo(SWEEPERRAISE, 50, SWEEPMIN); //lowers claw
+    move_servo(SWEEPERCLAW, 50, SWEEPCLOSE); //closes claw
+    move_servo(SWEEPERRAISE, 50, SWEEPMAX); //raises the claw up
+    
+    mav(LEFTMOTOR, -750);
+    mav(RIGHTMOTOR, -750);
+    msleep(1800); //moves forward to the large boxes
+    ao();
+    move_servo(SWEEPERRAISE, 50, SWEEPDROP);
+    move_servo(SWEEPERCLAW, 50, SWEEPOPEN); //drops blocks
+    msleep(500);
+    move_servo(SWEEPERRAISE, 50, SWEEPMAX);
+    move_servo(SWEEPERCLAW, 50, SWEEPOPEN+200); //lifts up and flattens claw
+    msleep(500);
+    mav(LEFTMOTOR, 750);
+    mav(RIGHTMOTOR, 750);
+    msleep(700);
+    ao();
+   
+    move_servo(SWEEPERRAISE, 50, SWEEPMIN+500); //pushes claw on cubes
+    //move_servo(SWEEPERRAISE, 50, SWEEPMED);
+    msleep(500);
+    
+    while(analog(1)<TARGET){
+    	pid_one_sensor_backwards(TARGET, 50, 0.01, RIGHTSIDE);
+    }
+    
+   	msleep(250);
+    mav(LEFTMOTOR, -500); //tilt robot left to fit the cubes in the zone
+    mav(RIGHTMOTOR, -1000);
+    msleep(1800);
+    ao();
+    
+    /*
+    while (analog(3) < TARGET) { //moves back until front sensor touches black
+    	mav(LEFTMOTOR, 750);
+    	mav(RIGHTMOTOR, 750);
+    }
+    */
+   	mav(LEFTMOTOR, 750);
+    mav(RIGHTMOTOR, 750);
+    msleep(500);
+    ao();
+   
+    move_servo(SWEEPERRAISE, 50, SWEEPMAX+200); //raises claw to go over ramp
+    while (WHITE) {
+        mav(LEFTMOTOR, -750); 
+        mav(RIGHTMOTOR, 750);
+    }
+    ao();
+    while (BLACK) {
+        mav(LEFTMOTOR, -750); 
+        mav(RIGHTMOTOR, 750);
+    }
+    ao();
+    
+    mav(LEFTMOTOR, -750); 
+    mav(RIGHTMOTOR, 750);
+    msleep(1000);
+    ao();
+    
+    align(OVERLINE, 1, 0, TARGET, TARGET); //align robot parallel to black line
+    ao();
+    //pid_one_sensor_backwards(TARGET, 50, 1.8, RIGHTSIDE); //change distance
+    /*while(analog(1)<TARGET){
+        mav(LEFTMOTOR,-750);    
+        mav(RIGHTMOTOR,-750);
+        msleep(10);
+    }
+    while(analog(1)>TARGET){
+        mav(LEFTMOTOR,-750);    
+        mav(RIGHTMOTOR,-750);
+        msleep(10);
+    }*/
+
+    disable_servos();
     return 0;
 
 }
