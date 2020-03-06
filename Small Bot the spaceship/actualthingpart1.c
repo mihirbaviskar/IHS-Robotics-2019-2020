@@ -36,7 +36,7 @@
 int main() {
     //pid_one_sensor_forwards(1600, 600, 20000, 'R', 0, 0.15);
     enable_servos();
-    msleep(1000);
+    /*msleep(1000);
     startPos();
     move_to(50,-100,1105);
     moveSweeper(70,465);
@@ -51,7 +51,7 @@ int main() {
     clapClaw(20,600);
     clapClaw(20,1500);
     msleep(1000);
-    theWholeShebang();
+    theWholeShebang();*/
     disable_servos();
     return 0;
 }
@@ -112,16 +112,7 @@ void animalCrossing(int tape, bool direction){
 }
 
 void goingOnATrip(){
-    move_to(50,-100,1110);
-    ao();
-    moveSweeper(70,465);
-    set_servo_position(0,1350);
-    msleep(5000);
-    animalCrossing(2,BACKWARD);
-    //code below has NOT been tested w/ code above
-    msleep(500);
-    animalCrossing(1,FORWARD); //adjust
-    theWholeShebang();
+    
 }
 
 /*void inOurFavoriteRocketShip(){
