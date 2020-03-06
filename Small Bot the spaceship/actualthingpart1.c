@@ -6,19 +6,34 @@
 #include <movement.h>
 #include <Claw.h>
 #include <FloorPlan.h>
+#include <AlignPerp.h>
 
-/* March 4th Plan
-** - Test the whole goingOnATrip()
-**   - Basically what is already in the main()
-** - Perfect goingOnATrip()
+#define FORWARD true
+#define BACKWARD false
+
+/* March 10th Plan
+** 
 */
 
 int main() {
     //pid_one_sensor_forwards(1600, 600, 20000, 'R', 0, 0.15);
     enable_servos();
-    startPos();
     msleep(1000);
-    goingOnATrip();
+    startPos();
+    move_to(50,-100,1105);
+    moveSweeper(70,465);
+    set_servo_position(0,1500);
+    msleep(2000);
+    move_to(-48,-50,2000);
+    msleep(5000);
+    align(1, 2000 , 2000);
+    animalCrossing(2,BACKWARD);
+    align(2, 2000 , 2000);
+    move_to(50, 50, 200);
+    clapClaw(20,600);
+    clapClaw(20,1500);
+    msleep(1000);
+    theWholeShebang();
     disable_servos();
     return 0;
 }
@@ -116,17 +131,27 @@ void zoomingThroughTheSky(){
 #define SWEEPERARM 1
 
 void clapClaw(int speed, int finalClaw){
-    int curClaw = get_servo_position(SWEEPERCLAW);
-    while(curClaw > finalClaw){
+    int curClaw;
+    curClaw = get_servo_position(SWEEPERCLAW);
+    if((curClaw - finalClaw) > 0){
+        while(curClaw > finalClaw){
         set_servo_position(SWEEPERCLAW, curClaw - 5);
     	curClaw = get_servo_position(SWEEPERCLAW);
         msleep(speed);
+        }
+    }
+    if((curClaw - finalClaw) < 0){
+        while(curClaw < finalClaw){
+        set_servo_position(SWEEPERCLAW, curClaw + 5);
+    	curClaw = get_servo_position(SWEEPERCLAW);
+        msleep(speed);
+        }
     }
     msleep(2000);
 }
 
 void theActualThing(){
-    clapClaw(20,560);
+    clapClaw(20,600);
 }
 
 void theWholeShebang(){
