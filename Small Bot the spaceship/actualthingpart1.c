@@ -12,7 +12,25 @@
 #define BACKWARD false
 
 /* March 10th Plan
-** 
+** - FINISH goingOnATrip()
+** - Run the damn thing at least 10 times
+**   - Must be 90% efficient >:[
+*/
+
+/* goingOnATrip() redo (i'm using this to rewrite the code from scratch)
+** - PART ONE
+**   - Bring all parts to start position
+**   - Turn to go parallel against the pipe
+** - PART TWO
+**   - Bring down the sweeper arm & open the sweeper claw more
+**   - Align to beginning edge of the black line
+** - PART THREE
+**   - Run animalCrossing (adjust values)
+**   - Align backwards to adjust against cubes
+**   - Move foward slightly (?)
+** - PART FOUR
+**   - Close claw slightly and then open again slowly
+**   - Grab the cubes
 */
 
 int main() {
