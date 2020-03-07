@@ -61,7 +61,7 @@ int main(){
     enable_servos();
     //PART ONE
     startPos();
-    move_to(  ,  ,  );
+    move_to(50,-90,1150);
     //PART TWO
     /*moveSweeper(65,460);
     set_servo_position(0,1500);
