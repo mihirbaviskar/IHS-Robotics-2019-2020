@@ -16,6 +16,7 @@
 ** - FINISH goingOnATrip()
 ** - Run the damn thing at least 10 times
 **   - Must be 90% efficient >:[
+** - Extra: redo inOurFavoriteRocketShip
 */
 
 /* goingOnATrip() redo (i'm using this to rewrite the code from scratch)
