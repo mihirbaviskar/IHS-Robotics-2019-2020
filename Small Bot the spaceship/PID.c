@@ -7,7 +7,7 @@
 #define RIGHTWHEEL 1
 #define KPB 0.01
 #define KDB 0.000
-#define Kp 0.03
+#define Kp 0.3
 #define DISTANCE_THRESHOLD 1300 // when pid begins to work
 #define BLACK analog(0) > 80
 #define WHITE analog(0) < 30
@@ -20,25 +20,12 @@ void pid_two_sensors_forwards_timed(int, int, int);
 void move_to(int left_power, int right_power, int milliseconds);
 void mav_to(int left_power, int right_power, int milliseconds);
 void pid_one_sensor_forwards_till_black(int target, int speed, int milliseconds, int side);
-void pid_one_sensor_forwards(int target, int speed, int milliseconds, int side, int sensor);
+void pid_one_sensor_forwards(int target, int speed, int seconds, int side, int sensor);
 
 int flag = 0;
 int counter = 0;
-void bang_pid_back(int speed, int target, int time){
-    int init_seconds = seconds();
-    while((seconds()-init_seconds)<time){
-        if(analog(0)<target){ //WHITE
-            mav(LEFTWHEEL, -(speed+200));
-        	mav(RIGHTWHEEL, -(speed-200));
-        	msleep(5);
-        }
-        else{
-            mav(LEFTWHEEL, -(speed-200));
-        	mav(RIGHTWHEEL, -(speed+200));
-        	msleep(5);
-        } 
-    }   
-}
+double sensorKp[5] = {0.1, 0.3, 0.1, 0.1, 0 };
+
 void pied_piper(int sensor, int target)	//0 1100
 {
     int position = analog(0);
@@ -247,12 +234,12 @@ void pid_one_sensor_forwards(int target, int speed, int seconds, int side, int s
     // parameter side: 0 for left; 1 for right      parameter sensor : 1 for left; 2 or right
     int counter = 0;
     int milliseconds = seconds * 1000;
-    
+    double kp = sensorKp[sensor];
     if(side == 1){ //right side
         while(counter < milliseconds) {
             int position = analog(sensor);
             int difference = target-position;
-            double correction = Kp* difference;
+            double correction = kp* difference;
             printf("pos_val: %i, diff_val: %i, correction: %lf\n", position, difference, correction);
             double lspeed = speed - correction;
             double rspeed = speed + correction;
@@ -269,7 +256,7 @@ void pid_one_sensor_forwards(int target, int speed, int seconds, int side, int s
         while(counter < milliseconds) {
         int position = analog(sensor);
         int difference = target-position;
-        double correction = Kp * difference;
+        double correction = kp * difference;
         printf("pos_val: %i, diff_val: %i, correction: %lf\n", position, difference, correction);
         double lspeed = speed + correction;
         double rspeed = speed - correction;
