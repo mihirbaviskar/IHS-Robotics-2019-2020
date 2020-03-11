@@ -17,7 +17,7 @@
 #define UNDERLINE 2
 /* Claw Bounds */
 #define SWEEPMAX 1300
-#define SWEEPMED 750
+
 #define SWEEPMIN 250
 #define SWEEPCLOSE 450
 #define SWEEPDROP 975
@@ -30,32 +30,9 @@
 #define BLACK analog(3) > TARGET
 int main() {
     enable_servos();
-    
-    move_servo(SWEEPERRAISE, 50, SWEEPMIN); //lowers claw
-    move_servo(SWEEPERCLAW, 50, SWEEPCLOSE); //closes claw
-    move_servo(SWEEPERRAISE, 50, SWEEPMAX); //raises the claw up
-    
-    mav(LEFTMOTOR, -750);
-    mav(RIGHTMOTOR, -750);
-    msleep(1800); //moves forward to the large boxes
-    ao();
-    move_servo(SWEEPERRAISE, 50, SWEEPDROP);
-    move_servo(SWEEPERCLAW, 50, SWEEPOPEN); //drops blocks
-    msleep(500);
-    move_servo(SWEEPERRAISE, 50, SWEEPMAX);
-    move_servo(SWEEPERCLAW, 50, SWEEPOPEN+200); //lifts up and flattens claw
-    msleep(500);
-    mav(LEFTMOTOR, 750);
-    mav(RIGHTMOTOR, 750);
-    msleep(700);
-    ao();
-   
-    move_servo(SWEEPERRAISE, 50, SWEEPMIN+500); //pushes claw on cubes
-    //move_servo(SWEEPERRAISE, 50, SWEEPMED);
-    msleep(500);
-    
+    organize_cubes();
     while(analog(1)<TARGET){
-    	pid_one_sensor_backwards(TARGET, 50, 0.01, RIGHTSIDE);
+    	pid_one_sensor_backwards(TARGET, 50, 0.01, LEFTSIDE);
     }
     
    	msleep(250);
@@ -93,6 +70,8 @@ int main() {
     ao();
     
     align(OVERLINE, 1, 0, TARGET, TARGET); //align robot parallel to black line
+    ao();
+    pid_one_sensor_forwards(TARGET, 600, 5, LEFTSIDE, 3);;
     ao();
     //pid_one_sensor_backwards(TARGET, 50, 1.8, RIGHTSIDE); //change distance
     /*while(analog(1)<TARGET){
