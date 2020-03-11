@@ -6,77 +6,42 @@
 #include <movement.h>
 #include <Claw.h>
 #include <FloorPlan.h>
-#include <AlignPerp.h>
 
 #define FORWARD true
 #define BACKWARD false
 
-/* March 10th 
-** - Retest color values
-** - FINISH goingOnATrip()
-** - Run the damn thing at least 10 times
-**   - Must be 90% efficient >:[
-** - Extra: redo inOurFavoriteRocketShip
+/* March 11th Plan
+** - Run hella trials for everything in main()
+** - Fix whatever
 */
 
-/* goingOnATrip() redo (i'm using this to rewrite the code from scratch)
-** - PART ONE
-**   - Bring all parts to start position
-**   - Turn to go parallel against the pipe (use a ruler to straighten bot)
-** - PART TWO
-**   - Bring down the sweeper arm & open the sweeper claw more
-**   - Align to beginning edge of the black line
-** - PART THREE
-**   - Run animalCrossing (adjust values)
-**   - Align backwards to adjust against cubes
-**   - Move foward slightly (?)
-** - PART FOUR
-**   - Close claw slightly and then open again slowly
-**   - Grab the cubes
-*/
-
-/*int main() {
-    //pid_one_sensor_forwards(1600, 600, 20000, 'R', 0, 0.15);
+int main() {
     enable_servos();
-    msleep(1000);
+    //inOurFavoriteRocketShip();
     startPos();
-    move_to(50,-100,1105);
-    moveSweeper(70,465);
+    /*moveSweeper(70,465);
+    clapClaw(20,800);
     set_servo_position(0,1500);
-    msleep(2000);
-    move_to(-48,-50,2000);
+    msleep(1000);
+    theWholeShebang();
+    move_to(-100,-100,2000);*/
+    move_to(30,-60,2070);
+    set_servo_position(0,900);
+    msleep(500);
+    moveSweeper(70,465);
+    move_to(-50,-50,1000);
+    clapClaw(15,1500);
+    move_to(-50,-50,1000);
     msleep(5000);
     align(1, 2000 , 2000);
     animalCrossing(2,BACKWARD);
-    align(2, 2000 , 2000);
-    move_to(50, 50, 200);
+    align(2, 1500, 2800);
+    move_to(50, 50, 180);
     clapClaw(20,600);
     clapClaw(20,1500);
     msleep(1000);
     theWholeShebang();
-    disable_servos();
-    return 0;
-}*/
-
-int main(){
-    enable_servos();
-    //PART ONE
-    startPos();
-    move_to(50,-90,1150);
-    //PART TWO
-    /*moveSweeper(65,460);
-    set_servo_position(0,1500);
-        //extra move foward???
-    align(1,2000 ,2000);
-    //PART THREE
-    animalCrossing(2,BACKWARD); //slows down on black
-    align(2,2000,2000);
-        //move foward slightly???
-    //PART FOUR
-    clapClaw(20,600);
-    clapClaw(20,1500);
-    msleep(1000);
-    theWholeShebang();*/
+    inOurFavoriteRocketShip();
     disable_servos();
     return 0;
 }
@@ -84,7 +49,7 @@ int main(){
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FloorPlan ~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 #include <kipr/botball.h>
-
+#include <AlignPerp.h>
 #define TOPHAT analog(0)
 #define FORWARD true
 #define BACKWARD false
@@ -111,26 +76,23 @@ void animalCrossing(int tape, bool direction){
                 ao();
                 printf("%d\n",counter);
             }
-            ao();
             while(TOPHAT > WHITE){
-                move_to(90,61,1);
+                move_to(100,71,1);
                 ao();
                 printf("%d\n",counter);
             }
-            ao();
-        }else{
+        }
+        else{
             while(TOPHAT < BLACK){
-                move_to(-100,-71,10);
-                ao();
-                printf("%d\n",counter);
+                motor(RIGHTMOTOR, -52);
+                motor(LEFTMOTOR, -50);
+                msleep(10);
             }
-            ao();
             while(TOPHAT > WHITE){
-                move_to(-90,-61,10);
-                ao();
-                printf("%d\n",counter);
+                motor(RIGHTMOTOR, -52);
+                motor(LEFTMOTOR, -50);
+                msleep(10);
             }
-            ao();
         }
         counter++;
     }
@@ -140,16 +102,24 @@ void goingOnATrip(){
     
 }
 
-/*void inOurFavoriteRocketShip(){
+void inOurFavoriteRocketShip(){
+    move_to(60, 60, 1500);
+    align(2, 1600, 1600);
+    msleep(1000);
+    move_to(-60, -60, 700);
+    move_to(0, 80, 2400);
+    move_to(60, 60, 3400);
+    move_to(-60, 60, 1500);
+	set_servo_position(SPACESHIPARM,95);
     set_servo_position(SPACESHIPHEAD,700);
-    animalCrossing(1, FORWARD); //foward
+    pid_one_sensor_forwards(1600, 800, 2000, 'R', 0, 0.1);
+    pid_one_sensor_forwards(1600, 500, 2700, 'R', 0, 0.1);
+    /*pid_one_sensor_forwards_till_black(BLACK,75,5000,1); //!! wrong analog !!
     move_to(50,100,90*8.5); //turn left, TEST VAL
-    pid_one_sensor_forwards_till_black(BLACK,75,5000,1); //!! wrong analog !!
-    move_to(50,100,90*8.5); //turn left, TEST VAL
-    pid_one_sensor_forwards(BLACK,75,3000,1,0,0); //into the astronauts
+    pid_one_sensor_forwards(BLACK,75,3000,1,0,0); //into the astronauts*/
 }
 
-void zoomingThroughTheSky(){
+/*void zoomingThroughTheSky(){
     set_servo_position(SPACESHIPHEAD, 100); //tilt head
     move_to(-100,-100,1000);//TEST VAL
     set_servo_position(SPACESHIPARM, 900); //lower spaceship
