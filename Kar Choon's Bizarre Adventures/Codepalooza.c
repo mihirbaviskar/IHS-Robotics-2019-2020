@@ -1,15 +1,45 @@
 #include <kipr/botball.h>
-#include <stdbool.h>
+#include<stdbool.h>
 
 //void moveSeconds(int);
 //void turnDegrees(int);
 //void moveSeconds(int);
 //void clock_set();
-void button_turn(int);
-void button_move();
+//void button_turn(int);
+//void button_move();
+# define LEFT 0 
+# define RIGHT 1
+int KarChoon(int);
 
-int main()
-{
+int main(){
+    camera_open();
+    msleep(3000);
+    while(1){
+        camera_update();
+        int camera = get_object_center_x(0,0);
+        printf("Center: %i\n",camera);
+        if(get_object_area(0,0)>3000 && get_object_count(0)>0 && get_object_center_x(0,0)>110 && get_object_center_x(0,0)<130
+         ){
+            int count = get_object_count(0);
+        	int area = get_object_area(0,0);
+       		printf("Count: %i\n",count);
+       		printf("Area: %i\n",area);
+            printf("yes\n");
+            mav(0,80);
+            mav(1,80);
+        }
+        else {
+            mav(0,70);
+            mav(1,-70);
+        }
+    }
+    
+        camera_close();
+		return 0;
+}
+   
+    /* Sween's Embarassment
+    clock_set();*/
     
     //Challenge 1: Move Forward for 10 seconds
     
@@ -234,9 +264,24 @@ int main()
     }
     return 0;
     */
-    button_turn(5);
-    return 0;
-}
+    //button_turn(5);
+    //KarChoon(10);
+
+
+/*
+int KarChoon(int start){
+    int end=10;
+    int math=0;
+    while(1){
+            math = end * start;
+        	return KarChoon(start-1);
+        }
+        if (start==0){
+            printf("%i",math);
+            return 0;
+        }
+    }*/
+
 /*void clock_set() {
     printf("00:00");
 	int min = 0; int hour = 0;
@@ -314,7 +359,7 @@ void turnDegrees(int degree) {
     bmd(0);
     bmd(1);
 }*/
-void button_turn (int sec) {
+/*void button_turn (int sec) {
     thread move;
     move = thread_create(button_move);
     thread_start(move);
@@ -338,4 +383,4 @@ void button_move () {
             mav(1,-50);
         }
     }
-}
+}*/
