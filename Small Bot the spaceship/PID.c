@@ -20,11 +20,11 @@ void pid_two_sensors_forwards_timed(int, int, int);
 void move_to(int left_power, int right_power, int milliseconds);
 void mav_to(int left_power, int right_power, int milliseconds);
 void pid_one_sensor_forwards_till_black(int target, int speed, int milliseconds, int side);
-void pid_one_sensor_forwards(int target, int speed, int seconds, int side, int sensor);
+void pid_one_sensor_forwards(int target, int speed, double seconds, int side, int sensor);
 
 int flag = 0;
 int counter = 0;
-double sensorKp[5] = {0.1, 0.3, 0.1, 0.1, 0 };
+double sensorKp[5] = {0.1, 0.3, 0.1, 0.1415, 0 };
 
 void pied_piper(int sensor, int target)	//0 1100
 {
@@ -230,10 +230,10 @@ void pid_one_sensor_forwards_till_black(int target, int speed, int seconds, int 
 }
 
 
-void pid_one_sensor_forwards(int target, int speed, int seconds, int side, int sensor){
+void pid_one_sensor_forwards(int target, int speed, double seconds, int side, int sensor){
     // parameter side: 0 for left; 1 for right      parameter sensor : 1 for left; 2 or right
     int counter = 0;
-    int milliseconds = seconds * 1000;
+    double milliseconds = seconds * 1000;
     double kp = sensorKp[sensor];
     if(side == 1){ //right side
         while(counter < milliseconds) {
