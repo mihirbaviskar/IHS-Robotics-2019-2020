@@ -65,10 +65,10 @@ void organize_cubes(){
     move_servo(SWEEPERRAISE, 50, SWEEPMAX); //raises the claw up
     mav(LEFTMOTOR, -750);
     mav(RIGHTMOTOR, -550);
-    msleep(2200); //moves forward to the large boxes
+    msleep(2400); //moves forward to the large boxes
     ao();
     
-    move_servo(SWEEPERRAISE, 50, SWEEPDROP);
+    move_servo(SWEEPERRAISE, 50, SWEEPDROP+100);
     move_servo(SWEEPERCLAW, 50, SWEEPOPEN); //drops blocks
     msleep(500);
     move_servo(SWEEPERRAISE, 50, SWEEPMAX);
@@ -78,7 +78,7 @@ void organize_cubes(){
     mav(RIGHTMOTOR, 750);
     msleep(700);
     ao();
-    move_servo(SWEEPERRAISE, 50, SWEEPMIN+500); //pushes claw on cubes
+    move_servo(SWEEPERRAISE, 50, SWEEPMIN+350); //pushes claw on cubes
     //move_servo(SWEEPERRAISE, 50, SWEEPMED);
     msleep(500);
     
