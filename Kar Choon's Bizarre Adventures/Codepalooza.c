@@ -14,26 +14,49 @@ int KarChoon(int);
 int main(){
     camera_open();
     msleep(3000);
+    //int camera;
     while(1){
         camera_update();
-        int camera = get_object_center_x(0,0);
-        printf("Center: %i\n",camera);
-        if(get_object_area(0,0)>3000 && get_object_count(0)>0 && get_object_center_x(0,0)>110 && get_object_center_x(0,0)<130
+        //camera = get_object_center_x(0,0);
+        //printf("Center: %i\n",camera);
+        if(get_object_count(0)>0 && get_object_area(0,0)>1000 && get_object_center_x(0,0)>50 && get_object_center_x(0,0)<110
          ){
-            int count = get_object_count(0);
+            int angle = 80 - get_object_center_x(0,0);
+            double speed = angle * 150;
+            //printf("%lf\n",speed);
+            if(speed<200){
+                speed = 200;
+            }
+            if(get_object_center_x(0,0)<80){
+            	mav(1,speed);
+                mav(0,100);
+                //printf("%lf\n",speed);
+            }
+            else if(get_object_center_x(0,0)>80){
+                mav(0,speed);
+                mav(1,100);
+                printf("%lf\n",speed);
+            }
+            else if(get_object_center_x(0,0)==80){
+            /*int count = get_object_count(0);
         	int area = get_object_area(0,0);
+            printf("Center: %i\n",camera);
        		printf("Count: %i\n",count);
        		printf("Area: %i\n",area);
-            printf("yes\n");
-            mav(0,80);
-            mav(1,80);
+            printf("yes\n");*/
+            mav(0,200);
+            mav(1,200);
+            }
+            if(get_object_area(0,0)>=6000){
+                break;
+            }
         }
         else {
             mav(0,70);
             mav(1,-70);
         }
     }
-    
+    	//ao();
         camera_close();
 		return 0;
 }
