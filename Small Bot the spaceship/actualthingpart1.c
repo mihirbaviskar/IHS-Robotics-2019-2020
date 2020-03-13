@@ -10,32 +10,12 @@
 #define FORWARD true
 #define BACKWARD false
 
-/* March 3rd Plan
-** - Perfect the turn
-** - Test animalCrossing()
-** - Improve theWholeShebang()
-*/
-
 int main() {
     enable_servos();
-    /*startPos();
-    move_to(30,-60,2060);
-    set_servo_position(0,900);
-    msleep(500);
-    moveSweeper(70,465);
-    move_to(-50,-50,1000);
-    clapClaw(15,1500);
-    move_to(-50,-50,1000);
-    align(1, 2000 , 2000);
-    animalCrossing(2,BACKWARD);
-    align(2, 1600, 3000);
-    move_to(50, 50, 180);
-    clapClaw(20,600);
-    clapClaw(20,1500);
-    msleep(1000);
-    theWholeShebang();
-    inOurFavoriteRocketShip();*/
-    pid_one_sensor_backwards(2500, 30, 2, 0);
+    //startPos();
+    goingOnATrip();
+    inOurFavoriteRocketShip();
+    zoomingThroughTheSky();
     disable_servos();
     return 0;
 }
@@ -58,7 +38,7 @@ void startPos(){
     moveSweeper(70,1400); //UP
     moveSpaceShip(70,100); //UP
     set_servo_position(SWEEPERCLAW,1250); //OPEN
-    thePeopleFork(20, 970); //TILT DOWN
+    thePeopleFork(10, 970); //TILT DOWN
 }
 
 void animalCrossing(int tape, bool direction){
@@ -93,15 +73,21 @@ void animalCrossing(int tape, bool direction){
 }
 
 void goingOnATrip(){
-    move_to(50,-100,1110);
-    ao();
-    moveSweeper(70,465);
-    set_servo_position(0,1350);
-    msleep(5000);
-    animalCrossing(2,BACKWARD);
-    //code below has NOT been tested w/ code above
+    startPos();
+    move_to(30,-60,2060);
+    set_servo_position(0,900);
     msleep(500);
-    animalCrossing(1,FORWARD); //adjust
+    moveSweeper(70,465);
+    move_to(-50,-50,1000);
+    clapClaw(15,1500);
+    move_to(-50,-50,1000);
+    align(1, 2000 , 2000);
+    animalCrossing(2,BACKWARD);
+    align(2, 1600, 3000);
+    move_to(50, 50, 180);
+    clapClaw(20,600);
+    clapClaw(20,1500);
+    msleep(1000);
     theWholeShebang();
 }
 
@@ -116,8 +102,11 @@ void inOurFavoriteRocketShip(){
 	set_servo_position(SPACESHIPARM,95);
     thePeopleFork(20, 970);
     pid_one_sensor_forwards(1600, 800, 2000, 'R', 0, 0.25);
-    pid_one_sensor_forwards(1600, 500, 2200, 'R', 0, 0.1);
+    pid_one_sensor_forwards(2500, 500, 2200, 'R', 0, 0.1);
     thePeopleFork(20, 1300);
+}
+
+void zoomingThroughTheSky(){
     move_to(-50, -50, 1000);
     move_to(50, -50, 1500);
     while(analog(3) < 2000) {
@@ -127,24 +116,18 @@ void inOurFavoriteRocketShip(){
     }
     ao();
     while(analog(3) > 1500) {
-        motor(RIGHTMOTOR, -20);
-        motor(LEFTMOTOR, 20);
+        motor(RIGHTMOTOR, -30);
+        motor(LEFTMOTOR, 30);
         msleep(1);
     }
     ao();
+    moveSpaceShip(20,920);
     moveSweeper(20,690); //lower sweeper
     msleep(3000);
-    pid_one_sensor_backwards(2500, 30, 1, 0);
+    pid_one_sensor_backwards(2500, 30, 7, 0);
+    pid_one_sensor_backwards(2500, 30, 2, 0);
+    pid_one_sensor_backwards(2500, 30, 5, 0);
 }
-
-/*void zoomingThroughTheSky(){
-    set_servo_position(SPACESHIPHEAD, 100); //tilt head
-    move_to(-100,-100,1000);//TEST VAL
-    set_servo_position(SPACESHIPARM, 900); //lower spaceship
-    moveSweeper(70,690); //lower sweeper
-    pid_one_sensor_forwards(BLACK,75,3000,1,0,0); //TEST VAL
-}*/
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Claw ~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 #include <kipr/botball.h>
