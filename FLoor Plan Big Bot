@@ -1,0 +1,172 @@
+#define LSENSE get_create_lcliff_amt()
+#define RSENSE get_create_rcliff_amt()
+#define LFSENSE get_create_lfcliff_amt()
+#define RFSENSE get_create_rfcliff_amt()
+#define GRAYMAX 1675 //Used ti be 2500
+#define GRAYMIN 1450 //used to be 1900
+#define KPR 0.035
+#define KPL 0.035
+#define KIL 0
+#define KIR 0
+#define KDL 0
+#define KDR 0 
+#define PROP 0.02		//.01
+#define KP 0.038          //0.035 
+#define KI 0.000         //0.
+#define KD 0.000         //0.0025
+#define GRAY 1800
+#define LCLIFF 0
+#define LF 1
+#define RF 2
+#define RCLIFF 3
+#define ANALOG 4
+#define d0 digital(0)
+#define mm 50
+#define servo0 1900
+void turnitup(int, int);//two wheel turn, int1 is how much, int2 is CW(0) or CCW(1)
+void prettyStraightforward(int distance, int);  //forward function
+void servofunc(int, int);//replacement for setservo
+void takeitback(int);//back
+void align(int, double);//align to a line; 1:behind line, 2: in front
+int gettoline();
+
+//Functions!!!!!!
+void turnitup(int length, int dir) {      
+	if(dir==0){ //CCW(left)
+		create_drive(-length,length);   
+		msleep(length*mm);	 
+	}
+	if(dir == 1) { //CW(right)
+		create_drive(length,-length);	
+		msleep(length*mm);
+	}
+}
+void prettyStraightforward(int dist,int time) { // Going straight 
+	create_drive_direct(dist,dist);
+    msleep(time);
+}
+void servofunc(int servo, int pos) {
+	set_servo_position(servo,pos);
+}
+void takeitback(int length){
+    msleep(length*mm);
+}
+void align(int side, double target)
+{
+    double currentleft = get_create_lcliff_amt();
+    double currentright = get_create_rcliff_amt();
+    double errorleft = currentleft-target;
+    double errorright = currentright-target;
+    double lproportional;
+    double rproportional;
+	double lintegral;
+	double rintegral;
+    double lintegration;
+	double rintegration;
+    double lderivative;
+	double rderivative;
+    double ldifferentiation;
+	double rdifferentiation;
+    int last_error_left;
+    int last_error_right;
+    double lcorrection;
+    double rcorrection;
+    int start_time = seconds();
+    int tiempo = seconds() - start_time;
+    if(side == 1){		//UNDERLINE
+        
+        while(!((get_create_lcliff_amt()>GRAYMIN && get_create_lcliff_amt()<GRAYMAX) &&  
+	        (get_create_rcliff_amt()>GRAYMIN && get_create_rcliff_amt()<GRAYMAX)))                 
+		//not on grey
+        {
+	 	 currentleft = get_create_lcliff_amt();
+	 	 currentright = get_create_rcliff_amt();
+	 	 errorleft = currentleft-target;
+         errorright = currentright-target;
+	 	 lproportional = KPL * errorleft;
+	 	 rproportional = KPR * errorright;
+         lintegral += errorleft;
+         rintegral += errorright;
+         lintegration = lintegral*KIL;
+         rintegration = rintegral*KIR;   
+         lderivative =last_error_left-errorleft;
+         rderivative =last_error_right-errorright;
+         ldifferentiation = lderivative*KDL;
+	     rdifferentiation = rderivative*KDR;
+         lcorrection = lproportional+lintegration+ldifferentiation;
+         rcorrection = rproportional+rintegration+rdifferentiation;
+         if((get_create_lcliff_amt()>GRAYMIN && get_create_lcliff_amt()<GRAYMAX)){lproportional = 0; printf("\t LEFT CLEARED\n");}
+         if((get_create_rcliff_amt()>GRAYMIN && get_create_rcliff_amt()<GRAYMAX)){rproportional = 0; printf("\t RIGHT CLEARED\n");}
+         if(lproportional<10 && lproportional>-10 && rproportional<10 && rproportional>-10){printf("\t NOT IN RANGE\n"); break;}
+         
+         /*
+         printf("lproportional: %lf\n",lproportional);
+	 	 printf("rproportional: %lf\n",rproportional);
+         */
+         create_drive_direct(lcorrection,rcorrection);
+	 	 msleep(6);
+         printf("Left: \t %i \n",get_create_lcliff_amt());
+     	 printf("Right: \t %i \n",get_create_rcliff_amt()); 
+         last_error_left = errorleft;
+         last_error_right = errorright;
+         tiempo = seconds() - start_time;
+         if(tiempo>=3){break;} 
+        }
+     }
+
+     if(side == 2){		//OVERLINE
+        
+        while(!((get_create_lcliff_amt()>GRAYMIN && get_create_lcliff_amt()<GRAYMAX) && 
+	        (get_create_rcliff_amt()>GRAYMIN && get_create_rcliff_amt()<GRAYMAX)))                 
+			//not on grey
+       {
+	 	 currentleft = get_create_lcliff_amt();
+	 	 currentright = get_create_rcliff_amt();
+	 	 errorleft = target-currentleft;
+    	 errorright = target-currentright;
+	 	 lproportional = KPL * errorleft;
+	     rproportional = KPR * errorright;
+         lintegral += errorleft;
+         rintegral += errorright;
+         lintegration = lintegral* KIL;
+         rintegration = rintegral* KIR;   
+         lderivative =last_error_left-errorleft;
+         rderivative =last_error_right-errorright;
+         ldifferentiation = lderivative*KDL;
+	     rdifferentiation = rderivative*KDR;
+         lcorrection = lproportional+lintegration+ldifferentiation;
+         rcorrection = rproportional+rintegration+rdifferentiation;
+         if((get_create_lcliff_amt()>GRAYMIN && get_create_lcliff_amt()<GRAYMAX)){lproportional = 0; printf("\t LEFT CLEARED\n");}
+         if((get_create_rcliff_amt()>GRAYMIN && get_create_rcliff_amt()<GRAYMAX)){rproportional = 0; printf("\t RIGHT CLEARED\n");}
+         if(lproportional<10 && lproportional>-10 && rproportional<10 && rproportional>-10){printf("\t NOT IN RANGE\n"); break;}
+	     /*
+         printf("lproportional: %lf\n",lcorrection);
+	 	 printf("rproportional: %lf\n",rcorrection);
+         */
+         create_drive_direct(lcorrection,rcorrection);
+         msleep(6);
+         printf("Left: \t %i \n",get_create_lcliff_amt());
+     	 printf("Right: \t %i \n",get_create_rcliff_amt());
+         last_error_left = errorleft;
+         last_error_right = errorright;
+         tiempo = seconds() - start_time;
+         if(tiempo>=5){break;} 
+		}
+     }
+}
+int gettoline(){
+    int msleepmt = 0;
+    while(RSENSE>GRAYMAX && LSENSE>GRAYMAX){
+    create_drive_direct(-50,-50);    
+    msleep(10);  
+    msleepmt+=10;
+    }
+    printf("%i",msleepmt);
+    if(msleepmt<300){
+        return 1;
+    }
+    if(RSENSE<=GRAYMAX && LSENSE>GRAYMAX){
+    	align(2,GRAYMAX);
+    }
+    return 11+5;
+}
