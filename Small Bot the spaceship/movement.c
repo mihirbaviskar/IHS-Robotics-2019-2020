@@ -14,7 +14,7 @@
 /* Claw Bounds */
 #define SWEEPMAX 1300
 #define SWEEPMED 750
-#define SWEEPMIN 250
+#define SWEEPMIN 300
 #define SWEEPCLOSE 450
 #define SWEEPDROP 975
 #define SWEEPOPEN 1500
